@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html lang="sv">
+
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Artikel | Tackelberganytt
+  </title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
+
+</head>
+
+
+<body>
+
+
+<header class="site-header">
+
+  <div class="utility-bar">
+
+    <div class="container utility-inner">
+
+      <span>
+        LOKAL • IDROTT • GEMENSKAP • TACKELBERGA
+      </span>
+
+      <span class="utility-right">
+        TACKELBERGAS EGEN SPORTTIDNING
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="container masthead">
+
+    <a
+      href="index.html"
+      class="brand"
+    >
+
+      <span class="brand-main">
+        Tackelberga
+      </span>
+
+      <span class="brand-accent">
+        nytt
+      </span>
+
+    </a>
+
+
+    <img
+      src="images/logo.png"
+      class="brand-logo"
+      alt="Tackelberga Oliners"
+    >
+
+  </div>
+
+
+  <nav class="main-nav">
+
+    <div class="container nav-inner">
+
+      <ul id="primary-menu">
+
+        <li>
+          <a href="index.html">
+            Hem
+          </a>
+        </li>
+
+        <li>
+          <a href="statistik.html">
+            Statistik
+          </a>
+        </li>
+
+        <li>
+          <a href="laget.html">
+            Laget
+          </a>
+        </li>
+
+        <li>
+          <a href="artiklar.html">
+            Artiklar
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+  </nav>
+
+</header>
+
+
+
+<main class="container page-grid">
+
+
+  <article
+    class="article-page"
+    id="dynamicArticle"
+  >
+
+    <div class="article-body">
+
+      <p>
+        Laddar artikel...
+      </p>
+
+    </div>
+
+  </article>
+
+
+</main>
+
+
+
+<footer class="site-footer">
+
+  <div class="container footer-grid">
+
+    <div>
+
+      <div class="footer-brand">
+        Tackelberga<span>nytt</span>
+      </div>
+
+      <p>
+        Nyheter, intervjuer och statistik om Tackelberga Oliners.
+      </p>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+
+<script>
+
+function escapeHTML(text) {
+
+  const element =
+    document.createElement("div");
+
+  element.textContent =
+    String(text ?? "");
+
+  return element.innerHTML;
+
+}
+
+
+
+async function loadArticle() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const slug =
+    params.get("slug");
+
+
+  const articleContainer =
+    document.querySelector(
+      "#dynamicArticle"
+    );
+
+
+  if (!slug) {
+
+    articleContainer.innerHTML =
+      "<p>Ingen artikel vald.</p>";
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        `/.netlify/functions/articles?slug=${encodeURIComponent(slug)}`
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Artikeln kunde inte hittas."
+      );
+
+    }
+
+
+    const article =
+      await response.json();
+
+
+    document.title =
+      `${article.title} | Tackelberganytt`;
+
+
+    const paragraphs =
+      article.content
+        .split(/\n\s*\n/)
+        .map(text => text.trim())
+        .filter(Boolean);
+
+
+    let articleText = "";
+
+
+    paragraphs.forEach(
+      (paragraph, index) => {
+
+        articleText += `
+          <p>
+            ${escapeHTML(paragraph)}
+          </p>
+        `;
+
+
+        /*
+          Lägg utvalt citat efter
+          andra stycket.
+        */
+
+        if (
+          index === 1 &&
+          article.quote
+        ) {
+
+          articleText += `
+
+            <blockquote>
+
+              “${escapeHTML(article.quote)}”
+
+              ${
+                article.quotePerson
+                ? `
+                  <cite>
+                    — ${escapeHTML(article.quotePerson)}
+                  </cite>
+                `
+                : ""
+              }
+
+            </blockquote>
+
+          `;
+
+        }
+
+      }
+    );
+
+
+    const imageHTML =
+      article.image
+        ? `
+          <img
+            src="${escapeHTML(article.image)}"
+            alt="${escapeHTML(article.title)}"
+            class="article-hero"
+          >
+
+          ${
+            article.imageCaption
+            ? `
+              <div class="image-caption">
+                ${escapeHTML(article.imageCaption)}
+              </div>
+            `
+            : ""
+          }
+        `
+        : "";
+
+
+    articleContainer.innerHTML = `
+
+      <div class="article-body">
+
+        <div class="kicker">
+          ${escapeHTML(article.category)}
+        </div>
+
+        <h1>
+          ${escapeHTML(article.title)}
+        </h1>
+
+        <p class="standfirst">
+          ${escapeHTML(article.intro)}
+        </p>
+
+        <p class="byline">
+          Av ${escapeHTML(article.author)}
+          •
+          ${escapeHTML(article.date)}
+        </p>
+
+        ${imageHTML}
+
+        <div class="article-text">
+
+          ${articleText}
+
+        </div>
+
+      </div>
+
+    `;
+
+
+  } catch (error) {
+
+    articleContainer.innerHTML = `
+
+      <div class="article-body">
+
+        <h1>
+          Artikeln kunde inte hittas
+        </h1>
+
+        <p>
+          ${escapeHTML(error.message)}
+        </p>
+
+        <a href="artiklar.html">
+          Till artikelarkivet →
+        </a>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+loadArticle();
+
+</script>
+
+
+</body>
+
+</html>
