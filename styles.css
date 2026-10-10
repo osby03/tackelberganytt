@@ -2384,3 +2384,439 @@ a {
 
   font-weight: 700;
 }
+/* ==========================================================
+   REDAKTIONSVERKTYG
+========================================================== */
+
+.admin-topbar {
+  background: #111;
+  color: white;
+
+  border-bottom: 5px solid var(--accent);
+
+  padding: 18px 0;
+}
+
+.admin-topbar .container {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-logo {
+  font-family: var(--serif);
+
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.admin-logo span {
+  color: var(--accent);
+}
+
+.admin-topbar .container > span {
+  font-size: 0.7rem;
+  font-weight: 900;
+
+  letter-spacing: 0.12em;
+}
+
+
+.admin-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.65fr)
+    minmax(300px, 0.7fr);
+
+  gap: 40px;
+
+  padding-top: 40px;
+  padding-bottom: 70px;
+}
+
+
+.admin-heading {
+  border-bottom: 4px solid #111;
+
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+}
+
+.admin-heading h1 {
+  font-family: var(--serif);
+
+  font-size: 4rem;
+
+  margin: 8px 0;
+}
+
+
+.admin-login {
+  background: #e8f7f5;
+
+  border-left: 5px solid var(--accent);
+
+  padding: 18px;
+
+  margin-bottom: 25px;
+}
+
+.admin-login label {
+  display: block;
+
+  font-size: 0.75rem;
+  font-weight: 900;
+
+  margin-bottom: 7px;
+}
+
+.admin-password-row {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-password-row input {
+  flex: 1;
+}
+
+.admin-password-row button {
+  border: 0;
+
+  background: #111;
+  color: white;
+
+  padding: 0 18px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+.article-editor-form {
+  background: var(--paper);
+
+  border: 1px solid var(--line);
+
+  padding: 25px;
+}
+
+
+.editor-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px;
+}
+
+
+.editor-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.editor-field-wide {
+  grid-column: 1 / -1;
+}
+
+.editor-field label {
+  font-size: 0.76rem;
+
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.05em;
+}
+
+
+.editor-field input,
+.editor-field select,
+.editor-field textarea {
+  width: 100%;
+
+  padding: 12px;
+
+  border: 1px solid var(--line);
+
+  background: white;
+
+  font-family: var(--sans);
+
+  font-size: 0.95rem;
+
+  outline: none;
+}
+
+
+.editor-field input:focus,
+.editor-field select:focus,
+.editor-field textarea:focus {
+  border-color: var(--accent);
+}
+
+
+.editor-field textarea {
+  min-height: 110px;
+
+  resize: vertical;
+}
+
+.editor-field .main-article-editor {
+  min-height: 420px;
+
+  font-family: Georgia, serif;
+
+  line-height: 1.6;
+}
+
+.editor-field small {
+  color: var(--muted);
+
+  font-size: 0.7rem;
+}
+
+
+.admin-checkboxes {
+  display: flex;
+
+  gap: 25px;
+
+  padding: 10px 0;
+}
+
+.admin-checkboxes label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  text-transform: none;
+
+  letter-spacing: 0;
+}
+
+.admin-checkboxes input {
+  width: auto;
+}
+
+
+.editor-actions {
+  display: flex;
+
+  gap: 12px;
+
+  margin-top: 25px;
+}
+
+
+.primary-button,
+.secondary-button {
+  border: 0;
+
+  padding: 13px 22px;
+
+  font-family: var(--sans);
+
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+.primary-button {
+  background: var(--accent);
+
+  color: #071312;
+}
+
+.secondary-button {
+  background: #111;
+
+  color: white;
+}
+
+
+.admin-message {
+  min-height: 20px;
+
+  font-size: 0.8rem;
+
+  color: var(--accent-dark);
+
+  font-weight: 700;
+}
+
+
+/* ==========================================================
+   ADMIN PREVIEW
+========================================================== */
+
+.admin-preview {
+  position: sticky;
+
+  top: 20px;
+
+  align-self: start;
+
+  background: var(--paper);
+
+  border: 1px solid var(--line);
+
+  padding: 20px;
+}
+
+.preview-label {
+  background: #111;
+  color: white;
+
+  display: inline-block;
+
+  padding: 6px 9px;
+
+  margin-bottom: 15px;
+
+  font-size: 0.65rem;
+
+  font-weight: 900;
+
+  letter-spacing: 0.1em;
+}
+
+.preview-image-placeholder {
+  background: #ddd7ca;
+
+  min-height: 220px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #716b63;
+
+  margin-bottom: 15px;
+}
+
+.preview-image-placeholder img {
+  width: 100%;
+  height: 100%;
+
+  max-height: 300px;
+
+  object-fit: cover;
+}
+
+.admin-preview h2 {
+  font-family: var(--serif);
+
+  font-size: 2.3rem;
+
+  line-height: 1;
+
+  margin: 8px 0;
+}
+
+.preview-intro {
+  font-family: Georgia, serif;
+
+  line-height: 1.5;
+
+  color: #45413b;
+}
+
+.preview-quote {
+  border-left: 5px solid var(--accent);
+
+  padding: 12px 15px;
+
+  margin: 20px 0;
+
+  font-family: var(--serif);
+
+  font-size: 1.3rem;
+
+  font-weight: 800;
+}
+
+
+/* ==========================================================
+   DYNAMISKA ARTIKLAR
+========================================================== */
+
+.dynamic-articles-section {
+  grid-column: 1 / -1;
+
+  margin-bottom: 40px;
+}
+
+
+.article-text blockquote cite {
+  display: block;
+
+  margin-top: 10px;
+
+  color: var(--accent-dark);
+
+  font-family: var(--sans);
+
+  font-size: 0.75rem;
+
+  font-style: normal;
+
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.07em;
+}
+
+
+/* ==========================================================
+   ADMIN RESPONSIVE
+========================================================== */
+
+@media (max-width: 950px) {
+
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-preview {
+    position: static;
+  }
+
+}
+
+
+@media (max-width: 620px) {
+
+  .editor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-field-wide {
+    grid-column: auto;
+  }
+
+  .admin-password-row {
+    flex-direction: column;
+  }
+
+  .admin-checkboxes {
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+  .editor-actions {
+    flex-direction: column;
+  }
+
+}
