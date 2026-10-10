@@ -2,7 +2,6 @@
 <html lang="sv">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -10,9 +9,12 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>
-    Artiklar | Tackelberganytt
-  </title>
+  <title>Artiklar | Tackelberganytt</title>
+
+  <meta
+    name="description"
+    content="Nyheter, intervjuer, krönikor och profiler om Tackelberga Oliners."
+  >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -31,336 +33,815 @@
     rel="stylesheet"
     href="styles.css"
   >
-
 </head>
 
 
 <body>
 
-<header class="site-header">
+  <!-- ======================================================
+       HEADER
+  ======================================================= -->
 
-  <div class="utility-bar">
+  <header class="site-header">
 
-    <div class="container utility-inner">
+    <div class="utility-bar">
+      <div class="container utility-inner">
 
-      <span>
-        LOKAL • IDROTT • GEMENSKAP • TACKELBERGA
-      </span>
+        <span>
+          LOKAL • IDROTT • GEMENSKAP • TACKELBERGA
+        </span>
 
-      <span class="utility-right">
-        TACKELBERGAS EGEN SPORTTIDNING
-      </span>
+        <span class="utility-right">
+          TACKELBERGAS EGEN SPORTTIDNING
+        </span>
+
+      </div>
+    </div>
+
+
+    <div class="container masthead">
+
+      <a
+        href="index.html"
+        class="brand"
+        aria-label="Tackelberganytt startsida"
+      >
+        <span class="brand-main">
+          Tackelberga
+        </span>
+
+        <span class="brand-accent">
+          nytt
+        </span>
+      </a>
+
+
+      <img
+        src="images/logo.png"
+        class="brand-logo"
+        alt="Tackelberga Oliners"
+      >
 
     </div>
 
-  </div>
+
+    <!-- NAVIGATION -->
+
+    <nav class="main-nav">
+
+      <div class="container nav-inner">
+
+        <button
+          class="menu-toggle"
+          aria-label="Öppna meny"
+          aria-expanded="false"
+          aria-controls="primary-menu"
+        >
+          ☰
+        </button>
 
 
-  <div class="container masthead">
+        <ul id="primary-menu">
 
-    <a
-      href="index.html"
-      class="brand"
-    >
+          <li>
+            <a href="index.html">
+              Hem
+            </a>
+          </li>
 
-      <span class="brand-main">
-        Tackelberga
-      </span>
+          <li>
+            <a href="statistik.html">
+              Statistik
+            </a>
+          </li>
 
-      <span class="brand-accent">
-        nytt
-      </span>
+          <li>
+            <a href="laget.html">
+              Laget
+            </a>
+          </li>
 
-    </a>
+          <li>
+            <a
+              href="artiklar.html"
+              class="active"
+            >
+              Artiklar
+            </a>
+          </li>
 
-    <img
-      src="images/logo.png"
-      alt="Tackelberga Oliners logotyp"
-      class="brand-logo"
-    >
+          <li>
+            <a href="om.html">
+              Om Tackelberganytt
+            </a>
+          </li>
 
-  </div>
-
-
-  <nav class="main-nav">
-
-    <div class="container nav-inner">
-
-      <button
-        class="menu-toggle"
-        aria-expanded="false"
-        aria-controls="primary-menu"
-      >
-        ☰ Meny
-      </button>
-
-      <ul id="primary-menu">
-
-        <li>
-          <a href="index.html">Hem</a>
-        </li>
-
-        <li>
-          <a href="statistik.html">Statistik</a>
-        </li>
-
-        <li>
-          <a href="laget.html">Laget</a>
-        </li>
-
-        <li>
-          <a href="artiklar.html">Artiklar</a>
-        </li>
-
-        <li>
-          <a href="om.html">Om Tackelberganytt</a>
-        </li>
-
-      </ul>
-
-    </div>
-
-  </nav>
-
-</header>
-
-
-<main class="container page-grid">
-
-  <section class="page-title">
-
-    <div class="kicker">
-      ARKIV
-    </div>
-
-    <h1>
-      Artiklar
-    </h1>
-
-    <p>
-      Intervjuer, analyser, krönikor och nyheter från
-      Tackelberga Oliners.
-    </p>
-
-  </section>
-
-
-  <section class="article-list">
-
-
-    <article class="article-list-item">
-
-      <img
-        src="images/benson-frykman.jpg"
-        alt="Bob Benson och David Frykman"
-      >
-
-      <div>
-
-        <div class="kicker small">
-          INTERVJU
-        </div>
-
-        <h2>
-          ”Du har ingen aning om vad du pratar om”
-        </h2>
-
-        <p>
-          Bob Benson går till hårt angrepp mot kritiken efter
-          Tackelbergas svaga start.
-        </p>
-
-        <a href="article-benson.html">
-          Läs artikeln →
-        </a>
+        </ul>
 
       </div>
 
-    </article>
+    </nav>
+
+  </header>
 
 
-    <article class="article-list-item">
 
-      <img
-        src="images/fofana.png"
-        alt="Ibrahima Fofana"
-      >
+  <!-- ======================================================
+       SIDHUVUD
+  ======================================================= -->
 
-      <div>
+  <main class="container articles-page">
 
-        <div class="kicker small">
-          PROFIL
-        </div>
+    <section class="articles-page-header">
 
-        <h2>
-          Fofana vägrar backa
-        </h2>
-
-        <p>
-          Den assisterande kaptenen om Tackelbergas fysiska
-          identitet, slagskottet och målet om division 5.
-        </p>
-
-        <a href="article-fofana.html">
-          Läs artikeln →
-        </a>
-
+      <div class="section-kicker">
+        TACKELBERGANYTT
       </div>
 
-    </article>
-
-
-    <article class="article-list-item">
-
-      <img
-        src="images/kebbeh-night.png"
-        alt="Suwaibo Kebbeh utanför nattklubb"
-      >
-
-      <div>
-
-        <div class="kicker small">
-          NYHET
-        </div>
-
-        <h2>
-          Kebbeh fångad på nattklubb
-        </h2>
-
-        <p>
-          Stjärnforwarden sågs lämna en nattklubb i centrala
-          Stockholm sent under natten.
-        </p>
-
-        <a href="article-kebbeh.html">
-          Läs artikeln →
-        </a>
-
-      </div>
-
-    </article>
-
-
-    <article class="article-list-item">
-
-      <img
-        src="images/fans.jpg"
-        alt="Tackelberga-supportrar"
-      >
-
-      <div>
-
-        <div class="kicker small">
-          KRÖNIKA
-        </div>
-
-        <h2>
-          Tackelberga blickar uppåt
-        </h2>
-
-        <p>
-          Från division 8 till nya drömmar om Elite Cup –
-          men vägen är långt ifrån rak.
-        </p>
-
-        <a href="article-blickar-uppat.html">
-			Läs krönikan →
-		</a>
-
-      </div>
-
-    </article>
-
-
-    <article class="article-list-item">
-
-      <img
-        src="images/branby.png"
-        alt="Steinke Brånby"
-      >
-
-      <div>
-
-        <div class="kicker small">
-          PROFIL
-        </div>
-
-        <h2>
-          Brånby visar kampvilja
-        </h2>
-
-        <p>
-          Passion, fysisk hockey och ett växande självförtroende
-          har gjort backen till en allt viktigare del av laget.
-        </p>
-
-        <a href="article-branby.html">
-			Läs mer →
-		</a>
-
-      </div>
-
-    </article>
-
-
-  </section>
-
-</main>
-
-
-<footer class="site-footer">
-
-  <div class="container footer-grid">
-
-    <div>
-
-      <div class="footer-brand">
-        Tackelberga<span>nytt</span>
-      </div>
+      <h1>
+        Artiklar
+      </h1>
 
       <p>
-        Nyheter, intervjuer, statistik och krönikor om
+        Nyheter, intervjuer, krönikor och profiler från
         Tackelberga Oliners.
       </p>
 
+    </section>
+
+
+
+    <!-- ====================================================
+         NYA ARTIKLAR FRÅN REDAKTIONSVERKTYGET
+    ===================================================== -->
+
+    <section class="dynamic-articles-section">
+
+      <div class="modern-section-heading">
+
+        <div>
+
+          <span class="heading-accent"></span>
+
+          <h2>
+            Senaste från redaktionen
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="dynamicArticles"
+        class="article-list"
+      >
+
+        <p class="articles-loading">
+          Laddar senaste artiklar...
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ====================================================
+         TIDIGARE / BEFINTLIGA ARTIKLAR
+    ===================================================== -->
+
+    <section class="archive-section">
+
+      <div class="modern-section-heading">
+
+        <div>
+
+          <span class="heading-accent"></span>
+
+          <h2>
+            Ur arkivet
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="article-list">
+
+
+        <!-- BOB BENSON -->
+
+        <article class="article-list-item">
+
+          <a
+            href="article-benson.html"
+            class="article-list-image"
+          >
+            <img
+              src="images/benson-frykman.jpg"
+              alt="Bob Benson och David Frykman"
+            >
+          </a>
+
+
+          <div class="article-list-content">
+
+            <div class="kicker small">
+              INTERVJU
+            </div>
+
+            <h2>
+              <a href="article-benson.html">
+                Benson slår tillbaka efter kritiken
+              </a>
+            </h2>
+
+            <p>
+              Tackelbergas lagkapten Bob Benson möter
+              Tackelberganytts David Frykman efter den senaste
+              tidens kritik och vägrar hålla tillbaka.
+            </p>
+
+            <a
+              href="article-benson.html"
+              class="read-more"
+            >
+              Läs intervjun →
+            </a>
+
+          </div>
+
+        </article>
+
+
+
+        <!-- SUWAIBO KEBBEH -->
+
+        <article class="article-list-item">
+
+          <a
+            href="article-kebbeh.html"
+            class="article-list-image"
+          >
+            <img
+              src="images/kebbeh-night.png"
+              alt="Suwaibo Kebbeh"
+            >
+          </a>
+
+
+          <div class="article-list-content">
+
+            <div class="kicker small">
+              NYHET
+            </div>
+
+            <h2>
+              <a href="article-kebbeh.html">
+                Kebbeh i nattens rubriker
+              </a>
+            </h2>
+
+            <p>
+              Tackelbergas målkung Suwaibo Kebbeh hamnar
+              återigen i centrum utanför isen.
+            </p>
+
+            <a
+              href="article-kebbeh.html"
+              class="read-more"
+            >
+              Läs artikeln →
+            </a>
+
+          </div>
+
+        </article>
+
+
+
+        <!-- IBRAHIMA FOFANA -->
+
+        <article class="article-list-item">
+
+          <a
+            href="article-fofana.html"
+            class="article-list-image"
+          >
+            <img
+              src="images/fofana.png"
+              alt="Ibrahima Fofana"
+            >
+          </a>
+
+
+          <div class="article-list-content">
+
+            <div class="kicker small">
+              PROFIL
+            </div>
+
+            <h2>
+              <a href="article-fofana.html">
+                Fofana vägrar backa
+              </a>
+            </h2>
+
+            <p>
+              Tackelbergas assisterande kapten har byggt
+              sitt spel kring fysik, uppoffring och ett
+              slagskott som blivit ett av lagets främsta vapen.
+            </p>
+
+            <a
+              href="article-fofana.html"
+              class="read-more"
+            >
+              Läs profilen →
+            </a>
+
+          </div>
+
+        </article>
+
+
+
+        <!-- TACKELBERGA BLICKAR UPPÅT -->
+
+        <article class="article-list-item">
+
+          <a
+            href="article-blickar-uppat.html"
+            class="article-list-image"
+          >
+            <img
+              src="images/fans.jpg"
+              alt="Tackelberga Oliners supportrar"
+            >
+          </a>
+
+
+          <div class="article-list-content">
+
+            <div class="kicker small">
+              KRÖNIKA
+            </div>
+
+            <h2>
+              <a href="article-blickar-uppat.html">
+                Tackelberga blickar uppåt
+              </a>
+            </h2>
+
+            <p>
+              Från division 8 till nya drömmar om Elite Cup.
+              Tackelberga har tagit stora steg på kort tid,
+              men klubben är långt ifrån färdig.
+            </p>
+
+            <a
+              href="article-blickar-uppat.html"
+              class="read-more"
+            >
+              Läs krönikan →
+            </a>
+
+          </div>
+
+        </article>
+
+
+
+        <!-- STEINKE BRÅNBY -->
+
+        <article class="article-list-item">
+
+          <a
+            href="article-branby.html"
+            class="article-list-image"
+          >
+            <img
+              src="images/branby.png"
+              alt="Steinke Brånby"
+            >
+          </a>
+
+
+          <div class="article-list-content">
+
+            <div class="kicker small">
+              PROFIL
+            </div>
+
+            <h2>
+              <a href="article-branby.html">
+                Brånby visar kampvilja
+              </a>
+            </h2>
+
+            <p>
+              Nervös med pucken ibland, kompromisslös i
+              närkamperna desto oftare. Steinke Brånby
+              fortsätter att växa in i rollen i Tackelbergas
+              försvar.
+            </p>
+
+            <a
+              href="article-branby.html"
+              class="read-more"
+            >
+              Läs mer →
+            </a>
+
+          </div>
+
+        </article>
+
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- ======================================================
+       FOOTER
+  ======================================================= -->
+
+  <footer class="site-footer">
+
+    <div class="container footer-grid">
+
+      <div>
+
+        <div class="footer-brand">
+          Tackelberga<span>nytt</span>
+        </div>
+
+        <p>
+          Nyheter, intervjuer och statistik om
+          Tackelberga Oliners.
+        </p>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <a href="index.html">
+          Hem
+        </a>
+
+        <a href="statistik.html">
+          Statistik
+        </a>
+
+        <a href="laget.html">
+          Laget
+        </a>
+
+        <a href="artiklar.html">
+          Artiklar
+        </a>
+
+        <a href="om.html">
+          Om Tackelberganytt
+        </a>
+
+      </div>
+
     </div>
 
-
-    <div>
-
-      <h4>
-        Snabblänkar
-      </h4>
-
-      <a href="statistik.html">Statistik</a>
-      <a href="laget.html">Laget</a>
-      <a href="artiklar.html">Artiklar</a>
-
-    </div>
+  </footer>
 
 
-    <div>
 
-      <h4>
-        Redaktionen
-      </h4>
+  <!-- ======================================================
+       VANLIGT SITE-SCRIPT
+  ======================================================= -->
 
-      <p>
-        Stockholm
-      </p>
-
-      <p>
-        © 2026 Tackelberganytt
-      </p>
-
-    </div>
-
-  </div>
-
-</footer>
+  <script src="script.js"></script>
 
 
-<script src="script.js"></script>
+
+  <!-- ======================================================
+       HÄMTA PUBLICERADE ARTIKLAR FRÅN NETLIFY BLOBS
+  ======================================================= -->
+
+  <script>
+
+    function escapeArticleHTML(value) {
+
+      const element =
+        document.createElement("div");
+
+      element.textContent =
+        String(value ?? "");
+
+      return element.innerHTML;
+
+    }
+
+
+
+    async function loadDynamicArticles() {
+
+      const container =
+        document.querySelector(
+          "#dynamicArticles"
+        );
+
+
+      try {
+
+        const response =
+          await fetch(
+            "/.netlify/functions/articles"
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Artiklarna kunde inte hämtas."
+          );
+
+        }
+
+
+        const articles =
+          await response.json();
+
+
+        /*
+          API:t skickar bara publicerade
+          artiklar till vanliga besökare.
+        */
+
+        const publishedArticles =
+          articles.filter(
+            article =>
+              article.status === "published"
+          );
+
+
+        if (publishedArticles.length === 0) {
+
+          container.innerHTML = `
+
+            <div class="empty-articles">
+
+              <p>
+                Inga nya artiklar har publicerats ännu.
+              </p>
+
+            </div>
+
+          `;
+
+          return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        publishedArticles.forEach(
+          article => {
+
+            const item =
+              document.createElement(
+                "article"
+              );
+
+
+            item.className =
+              "article-list-item";
+
+
+            /*
+              Använd uppladdad artikelbild.
+              Om ingen bild finns används loggan.
+            */
+
+            const image =
+              article.image ||
+              "images/logo.png";
+
+
+            const formattedDate =
+              formatArticleDate(
+                article.date
+              );
+
+
+            item.innerHTML = `
+
+              <a
+                href="article.html?slug=${encodeURIComponent(article.slug)}"
+                class="article-list-image"
+              >
+
+                <img
+                  src="${escapeArticleHTML(image)}"
+                  alt="${escapeArticleHTML(article.title)}"
+                >
+
+              </a>
+
+
+              <div class="article-list-content">
+
+                <div class="article-meta">
+
+                  <span class="kicker small">
+
+                    ${escapeArticleHTML(
+                      article.category
+                    )}
+
+                  </span>
+
+                  <span class="article-date">
+
+                    ${escapeArticleHTML(
+                      formattedDate
+                    )}
+
+                  </span>
+
+                </div>
+
+
+                <h2>
+
+                  <a
+                    href="article.html?slug=${encodeURIComponent(article.slug)}"
+                  >
+
+                    ${escapeArticleHTML(
+                      article.title
+                    )}
+
+                  </a>
+
+                </h2>
+
+
+                <p>
+
+                  ${escapeArticleHTML(
+                    article.intro
+                  )}
+
+                </p>
+
+
+                ${
+                  article.quote
+
+                    ? `
+
+                      <div class="archive-quote">
+
+                        “${escapeArticleHTML(
+                          article.quote
+                        )}”
+
+                        ${
+                          article.quotePerson
+
+                            ? `
+
+                              <span>
+                                — ${escapeArticleHTML(
+                                  article.quotePerson
+                                )}
+                              </span>
+
+                            `
+
+                            : ""
+                        }
+
+                      </div>
+
+                    `
+
+                    : ""
+                }
+
+
+                <div class="article-list-footer">
+
+                  <span>
+
+                    Av ${escapeArticleHTML(
+                      article.author
+                    )}
+
+                  </span>
+
+
+                  <a
+                    href="article.html?slug=${encodeURIComponent(article.slug)}"
+                    class="read-more"
+                  >
+
+                    Läs artikeln →
+
+                  </a>
+
+                </div>
+
+              </div>
+
+            `;
+
+
+            container.appendChild(
+              item
+            );
+
+          }
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        container.innerHTML = `
+
+          <div class="articles-error">
+
+            <strong>
+              Artiklarna kunde inte laddas.
+            </strong>
+
+            <p>
+              Försök igen om en stund.
+            </p>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+
+    function formatArticleDate(dateString) {
+
+      if (!dateString) {
+        return "";
+      }
+
+
+      /*
+        T12:00 undviker vissa problem där
+        datum annars kan visas en dag fel
+        beroende på tidszon.
+      */
+
+      const date =
+        new Date(
+          `${dateString}T12:00:00`
+        );
+
+
+      if (Number.isNaN(date.getTime())) {
+
+        return dateString;
+
+      }
+
+
+      return new Intl.DateTimeFormat(
+        "sv-SE",
+        {
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        }
+      ).format(date);
+
+    }
+
+
+
+    loadDynamicArticles();
+
+  </script>
+
 
 </body>
 
