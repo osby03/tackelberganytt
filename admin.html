@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-
 <html lang="sv">
 
-
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -33,488 +30,752 @@
     rel="stylesheet"
     href="styles.css"
   >
-
 </head>
-
 
 <body>
 
+<header class="cms-header">
 
-<header class="admin-topbar">
-
-  <div class="container">
+  <div class="container cms-header-inner">
 
     <a
       href="index.html"
-      class="admin-logo"
+      class="cms-brand"
     >
       Tackelberga<span>nytt</span>
     </a>
 
-    <span>
-      REDAKTIONSVERKTYG
-    </span>
+    <div class="cms-header-right">
+
+      <span>
+        REDAKTIONEN
+      </span>
+
+      <a href="index.html">
+        Visa sajten →
+      </a>
+
+    </div>
 
   </div>
 
 </header>
 
 
+<main class="container cms-container">
 
-<main class="container admin-layout">
+  <!-- LOGIN -->
 
+  <section
+    class="cms-login"
+    id="loginSection"
+  >
 
-  <section class="admin-editor">
+    <div>
 
-
-    <div class="admin-heading">
-
-      <span class="kicker">
-        REDAKTIONEN
+      <span class="cms-eyebrow">
+        TACKELBERGANYTT CMS
       </span>
 
       <h1>
-        Ny artikel
+        Redaktionsverktyg
       </h1>
 
       <p>
-        Skriv, förhandsgranska och publicera direkt på Tackelberganytt.
+        Publicera och hantera artiklar på Tackelberganytt.
       </p>
 
     </div>
 
 
+    <div class="cms-login-form">
 
-    <!-- LÖSENORD -->
+      <input
+        type="password"
+        id="adminPassword"
+        placeholder="Redaktionslösenord"
+      >
 
-    <div class="admin-login">
-
-      <label for="adminPassword">
-        Redaktionslösenord
-      </label>
-
-      <div class="admin-password-row">
-
-        <input
-          type="password"
-          id="adminPassword"
-          placeholder="Ange lösenord"
-        >
-
-        <button
-          type="button"
-          id="savePassword"
-        >
-          Logga in
-        </button>
-
-      </div>
-
-      <p
-        id="loginMessage"
-        class="admin-message"
-      ></p>
+      <button
+        type="button"
+        id="loginButton"
+      >
+        Logga in
+      </button>
 
     </div>
 
-
-
-    <form
-      id="articleForm"
-      class="article-editor-form"
-    >
-
-
-      <div class="editor-grid">
-
-
-        <div class="editor-field editor-field-wide">
-
-          <label for="title">
-            Titel *
-          </label>
-
-          <input
-            id="title"
-            name="title"
-            maxlength="180"
-            required
-            placeholder="Exempel: Benson slår tillbaka mot kritiken"
-          >
-
-        </div>
-
-
-
-        <div class="editor-field">
-
-          <label for="slug">
-            Slug *
-          </label>
-
-          <input
-            id="slug"
-            name="slug"
-            required
-            placeholder="benson-slar-tillbaka"
-          >
-
-          <small>
-            Skapas automatiskt från titeln.
-          </small>
-
-        </div>
-
-
-
-        <div class="editor-field">
-
-          <label for="category">
-            Kategori *
-          </label>
-
-          <select
-            id="category"
-            name="category"
-            required
-          >
-
-            <option value="Nyhet">
-              Nyhet
-            </option>
-
-            <option value="Intervju">
-              Intervju
-            </option>
-
-            <option value="Krönika">
-              Krönika
-            </option>
-
-            <option value="Profil">
-              Profil
-            </option>
-
-            <option value="Analys">
-              Analys
-            </option>
-
-            <option value="Senaste nytt">
-              Senaste nytt
-            </option>
-
-          </select>
-
-        </div>
-
-
-
-        <div class="editor-field">
-
-          <label for="date">
-            Datum *
-          </label>
-
-          <input
-            type="date"
-            id="date"
-            name="date"
-            required
-          >
-
-        </div>
-
-
-
-        <div class="editor-field">
-
-          <label for="author">
-            Författare *
-          </label>
-
-          <input
-            id="author"
-            name="author"
-            maxlength="80"
-            required
-            placeholder="David Frykman"
-          >
-
-        </div>
-
-
-
-        <div class="editor-field editor-field-wide">
-
-          <label for="intro">
-            Ingress *
-          </label>
-
-          <textarea
-            id="intro"
-            name="intro"
-            maxlength="1000"
-            required
-            placeholder="Kort introduktion till artikeln..."
-          ></textarea>
-
-        </div>
-
-
-
-        <div class="editor-field editor-field-wide">
-
-          <label for="content">
-            Artikeltext *
-          </label>
-
-          <textarea
-            id="content"
-            name="content"
-            class="main-article-editor"
-            required
-            placeholder="Skriv artikeln här.
-
-Använd en tom rad mellan stycken."
-          ></textarea>
-
-          <small>
-            En tom rad skapar ett nytt stycke.
-          </small>
-
-        </div>
-
-
-
-        <div class="editor-field editor-field-wide">
-
-          <label for="quote">
-            Utvalt citat
-          </label>
-
-          <textarea
-            id="quote"
-            name="quote"
-            maxlength="500"
-            placeholder="Vi vet exakt var vi står och vart vi är på väg."
-          ></textarea>
-
-        </div>
-
-
-
-        <div class="editor-field editor-field-wide">
-
-          <label for="quotePerson">
-            Citatperson
-          </label>
-
-          <input
-            id="quotePerson"
-            name="quotePerson"
-            maxlength="100"
-            placeholder="Bob Benson"
-          >
-
-        </div>
-
-
-
-        <div class="editor-field editor-field-wide">
-
-          <label for="imageFile">
-            Huvudbild
-          </label>
-
-          <input
-            type="file"
-            id="imageFile"
-            accept="image/jpeg,image/png,image/webp"
-          >
-
-          <small>
-            JPG, PNG eller WebP. Max 5 MB.
-          </small>
-
-          <div
-            id="imageUploadStatus"
-            class="admin-message"
-          ></div>
-
-        </div>
-
-
-
-        <div class="editor-field editor-field-wide">
-
-          <label for="imageCaption">
-            Bildtext
-          </label>
-
-          <input
-            id="imageCaption"
-            name="imageCaption"
-            maxlength="500"
-            placeholder="Bob Benson under fredagens träning."
-          >
-
-        </div>
-
-
-
-        <div class="editor-field editor-field-wide">
-
-          <div class="admin-checkboxes">
-
-            <label>
-
-              <input
-                type="checkbox"
-                id="showLatest"
-              >
-
-              Visa i Senaste nytt
-
-            </label>
-
-
-            <label>
-
-              <input
-                type="checkbox"
-                id="isLead"
-              >
-
-              Markera som huvudnyhet
-
-            </label>
-
-          </div>
-
-        </div>
-
-
-
-        <div class="editor-field">
-
-          <label for="status">
-            Status
-          </label>
-
-          <select id="status">
-
-            <option value="published">
-              Publicerad
-            </option>
-
-            <option value="draft">
-              Utkast
-            </option>
-
-          </select>
-
-        </div>
-
-
-      </div>
-
-
-
-      <div class="editor-actions">
-
-        <button
-          type="button"
-          id="previewButton"
-          class="secondary-button"
-        >
-          Förhandsgranska
-        </button>
-
-        <button
-          type="submit"
-          id="publishButton"
-          class="primary-button"
-        >
-          Publicera artikel
-        </button>
-
-      </div>
-
-
-      <p
-        id="publishMessage"
-        class="admin-message"
-      ></p>
-
-
-    </form>
-
+    <p
+      id="loginMessage"
+      class="cms-message"
+    ></p>
 
   </section>
 
 
+  <!-- CMS -->
 
-  <!-- PREVIEW -->
-
-  <aside
-    class="admin-preview"
-    id="preview"
+  <div
+    id="cmsContent"
+    class="cms-content"
+    hidden
   >
 
-    <div class="preview-label">
-      FÖRHANDSVISNING
+    <!-- NAV -->
+
+    <div class="cms-nav">
+
+      <button
+        type="button"
+        class="cms-nav-button active"
+        data-view="articles"
+      >
+        Artiklar
+      </button>
+
+      <button
+        type="button"
+        class="cms-nav-button"
+        data-view="editor"
+        id="newArticleNav"
+      >
+        + Ny artikel
+      </button>
+
     </div>
 
-    <div
-      id="previewImage"
-      class="preview-image-placeholder"
+
+    <!-- ==================================================
+         ARTIKELLISTA
+    =================================================== -->
+
+    <section
+      id="articlesView"
+      class="cms-view"
     >
-      Ingen bild vald
-    </div>
 
-    <span
-      id="previewCategory"
-      class="story-category"
-    >
-      NYHET
-    </span>
+      <div class="cms-section-heading">
 
-    <h2 id="previewTitle">
-      Artikelrubrik
-    </h2>
+        <div>
 
-    <p
-      id="previewIntro"
-      class="preview-intro"
-    >
-      Artikelns ingress visas här.
-    </p>
+          <span class="cms-eyebrow">
+            ARKIV
+          </span>
 
-    <blockquote
-      id="previewQuote"
-      class="preview-quote"
+          <h2>
+            Hantera artiklar
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="cms-new-button"
+          id="newArticleButton"
+        >
+          + Ny artikel
+        </button>
+
+      </div>
+
+
+      <div class="cms-filters">
+
+        <button
+          type="button"
+          class="cms-filter active"
+          data-filter="all"
+        >
+          Alla
+        </button>
+
+        <button
+          type="button"
+          class="cms-filter"
+          data-filter="published"
+        >
+          Publicerade
+        </button>
+
+        <button
+          type="button"
+          class="cms-filter"
+          data-filter="draft"
+        >
+          Utkast
+        </button>
+
+      </div>
+
+
+      <div
+        id="articleManager"
+        class="cms-article-manager"
+      >
+
+        <p>
+          Laddar artiklar...
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         REDIGERARE
+    =================================================== -->
+
+    <section
+      id="editorView"
+      class="cms-view"
       hidden
-    ></blockquote>
+    >
 
-  </aside>
+      <div class="cms-section-heading">
 
+        <div>
+
+          <span
+            class="cms-eyebrow"
+            id="editorEyebrow"
+          >
+            NY ARTIKEL
+          </span>
+
+          <h2 id="editorHeading">
+            Skapa artikel
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="cms-back-button"
+          id="backToArticles"
+        >
+          ← Till artiklar
+        </button>
+
+      </div>
+
+
+      <div class="cms-editor-layout">
+
+        <!-- FORM -->
+
+        <form
+          id="articleForm"
+          class="cms-editor-form"
+        >
+
+          <input
+            type="hidden"
+            id="originalSlug"
+          >
+
+
+          <div class="cms-form-grid">
+
+
+            <div class="cms-field cms-field-full">
+
+              <label for="title">
+                Titel *
+              </label>
+
+              <input
+                id="title"
+                maxlength="180"
+                required
+                placeholder="Artikelns rubrik"
+              >
+
+            </div>
+
+
+            <div class="cms-field">
+
+              <label for="slug">
+                Slug *
+              </label>
+
+              <input
+                id="slug"
+                required
+                placeholder="artikelns-rubrik"
+              >
+
+              <small>
+                Adressen till artikeln.
+              </small>
+
+            </div>
+
+
+            <div class="cms-field">
+
+              <label for="category">
+                Kategori *
+              </label>
+
+              <select
+                id="category"
+                required
+              >
+
+                <option value="Nyhet">
+                  Nyhet
+                </option>
+
+                <option value="Intervju">
+                  Intervju
+                </option>
+
+                <option value="Krönika">
+                  Krönika
+                </option>
+
+                <option value="Profil">
+                  Profil
+                </option>
+
+                <option value="Analys">
+                  Analys
+                </option>
+
+                <option value="Senaste nytt">
+                  Senaste nytt
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="cms-field">
+
+              <label for="date">
+                Datum *
+              </label>
+
+              <input
+                type="date"
+                id="date"
+                required
+              >
+
+            </div>
+
+
+            <div class="cms-field">
+
+              <label for="author">
+                Författare *
+              </label>
+
+              <input
+                id="author"
+                maxlength="80"
+                required
+                placeholder="David Frykman"
+              >
+
+            </div>
+
+
+            <div class="cms-field cms-field-full">
+
+              <label for="intro">
+                Ingress *
+              </label>
+
+              <textarea
+                id="intro"
+                maxlength="1000"
+                required
+                placeholder="Artikelns ingress..."
+              ></textarea>
+
+            </div>
+
+
+            <div class="cms-field cms-field-full">
+
+              <label for="content">
+                Artikeltext *
+              </label>
+
+              <textarea
+                id="content"
+                class="cms-main-text"
+                required
+                placeholder="Skriv artikeln här.
+
+Använd en tom rad mellan stycken."
+              ></textarea>
+
+              <small>
+                Tom rad skapar ett nytt stycke.
+              </small>
+
+            </div>
+
+
+            <div class="cms-field cms-field-full">
+
+              <div class="cms-subheading">
+                Utvalt citat
+              </div>
+
+              <p class="cms-help">
+                Citatet placeras automatiskt inne i artikeln.
+              </p>
+
+            </div>
+
+
+            <div class="cms-field cms-field-full">
+
+              <label for="quote">
+                Citat
+              </label>
+
+              <textarea
+                id="quote"
+                maxlength="500"
+                placeholder="Vi vet vad vi kan och vi tänker visa det."
+              ></textarea>
+
+            </div>
+
+
+            <div class="cms-field cms-field-full">
+
+              <label for="quotePerson">
+                Citatperson
+              </label>
+
+              <input
+                id="quotePerson"
+                maxlength="100"
+                placeholder="Bob Benson"
+              >
+
+            </div>
+
+
+            <!-- BILD -->
+
+            <div class="cms-field cms-field-full">
+
+              <div class="cms-subheading">
+                Huvudbild
+              </div>
+
+              <div
+                id="currentImageBox"
+                class="cms-current-image"
+                hidden
+              >
+
+                <img
+                  id="currentImage"
+                  alt=""
+                >
+
+                <div>
+
+                  <strong>
+                    Nuvarande bild
+                  </strong>
+
+                  <p>
+                    Välj en ny fil nedan om du vill ersätta den.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="cms-field cms-field-full">
+
+              <label for="imageFile">
+                Ladda upp bild
+              </label>
+
+              <input
+                type="file"
+                id="imageFile"
+                accept="image/jpeg,image/png,image/webp"
+              >
+
+              <small>
+                JPG, PNG eller WebP. Max 5 MB.
+              </small>
+
+              <p
+                id="imageUploadStatus"
+                class="cms-message"
+              ></p>
+
+            </div>
+
+
+            <div class="cms-field cms-field-full">
+
+              <label for="imageCaption">
+                Bildtext
+              </label>
+
+              <input
+                id="imageCaption"
+                maxlength="500"
+                placeholder="Bildtext..."
+              >
+
+            </div>
+
+
+            <!-- INSTÄLLNINGAR -->
+
+            <div class="cms-field cms-field-full">
+
+              <div class="cms-subheading">
+                Publicering
+              </div>
+
+            </div>
+
+
+            <div class="cms-field">
+
+              <label for="status">
+                Status
+              </label>
+
+              <select id="status">
+
+                <option value="published">
+                  Publicerad
+                </option>
+
+                <option value="draft">
+                  Utkast
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="cms-field">
+
+              <div class="cms-checkbox-group">
+
+                <label>
+
+                  <input
+                    type="checkbox"
+                    id="showLatest"
+                  >
+
+                  Visa i Senaste nytt
+
+                </label>
+
+
+                <label>
+
+                  <input
+                    type="checkbox"
+                    id="isLead"
+                  >
+
+                  Huvudnyhet
+
+                </label>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="cms-form-actions">
+
+            <button
+              type="button"
+              id="previewButton"
+              class="cms-secondary-button"
+            >
+              Uppdatera förhandsvisning
+            </button>
+
+
+            <button
+              type="submit"
+              id="publishButton"
+              class="cms-primary-button"
+            >
+              Publicera artikel
+            </button>
+
+          </div>
+
+
+          <p
+            id="publishMessage"
+            class="cms-message"
+          ></p>
+
+        </form>
+
+
+        <!-- PREVIEW -->
+
+        <aside class="cms-preview">
+
+          <div class="cms-preview-label">
+            FÖRHANDSVISNING
+          </div>
+
+
+          <div
+            id="previewImage"
+            class="cms-preview-image"
+          >
+            Ingen bild vald
+          </div>
+
+
+          <span
+            id="previewCategory"
+            class="cms-preview-category"
+          >
+            NYHET
+          </span>
+
+
+          <h2 id="previewTitle">
+            Artikelrubrik
+          </h2>
+
+
+          <p
+            id="previewIntro"
+            class="cms-preview-intro"
+          >
+            Artikelns ingress visas här.
+          </p>
+
+
+          <blockquote
+            id="previewQuote"
+            hidden
+          ></blockquote>
+
+        </aside>
+
+      </div>
+
+    </section>
+
+  </div>
 
 </main>
 
 
+<!-- ======================================================
+     DELETE MODAL
+======================================================= -->
+
+<div
+  id="deleteModal"
+  class="cms-modal"
+  hidden
+>
+
+  <div class="cms-modal-card">
+
+    <span class="cms-eyebrow">
+      RADERA ARTIKEL
+    </span>
+
+    <h2>
+      Är du säker?
+    </h2>
+
+    <p>
+      Du håller på att permanent radera
+      <strong id="deleteArticleTitle"></strong>.
+    </p>
+
+    <p>
+      Detta går inte att ångra.
+    </p>
+
+
+    <div class="cms-modal-actions">
+
+      <button
+        type="button"
+        id="cancelDelete"
+        class="cms-secondary-button"
+      >
+        Avbryt
+      </button>
+
+      <button
+        type="button"
+        id="confirmDelete"
+        class="cms-delete-button"
+      >
+        Radera permanent
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
 
 <script>
+
+/* =========================================================
+   ELEMENT
+========================================================= */
 
 const passwordInput =
   document.querySelector("#adminPassword");
 
 const loginButton =
-  document.querySelector("#savePassword");
+  document.querySelector("#loginButton");
 
 const loginMessage =
   document.querySelector("#loginMessage");
 
-const form =
+const cmsContent =
+  document.querySelector("#cmsContent");
+
+const articleManager =
+  document.querySelector("#articleManager");
+
+const articlesView =
+  document.querySelector("#articlesView");
+
+const editorView =
+  document.querySelector("#editorView");
+
+const articleForm =
   document.querySelector("#articleForm");
 
 const titleInput =
@@ -522,6 +783,9 @@ const titleInput =
 
 const slugInput =
   document.querySelector("#slug");
+
+const originalSlugInput =
+  document.querySelector("#originalSlug");
 
 const imageInput =
   document.querySelector("#imageFile");
@@ -536,62 +800,40 @@ const publishButton =
   document.querySelector("#publishButton");
 
 
-let uploadedImageUrl = "";
+let allArticles = [];
+
+let currentFilter = "all";
+
+let currentImageUrl = "";
 
 let slugWasManuallyEdited = false;
 
+let articleToDelete = null;
 
 
-/* ==========================================
-   LOGIN
-========================================== */
-
-passwordInput.value =
-  sessionStorage.getItem("tackelbergaAdminKey") || "";
-
-
-loginButton.addEventListener(
-  "click",
-  () => {
-
-    const value =
-      passwordInput.value.trim();
-
-    if (!value) {
-      return;
-    }
-
-    sessionStorage.setItem(
-      "tackelbergaAdminKey",
-      value
-    );
-
-    loginMessage.textContent =
-      "Lösenord sparat för den här sessionen.";
-
-  }
-);
-
-
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function getAdminKey() {
-
-  return (
-    sessionStorage.getItem(
-      "tackelbergaAdminKey"
-    ) || ""
-  );
-
+  return sessionStorage.getItem(
+    "tackelbergaAdminKey"
+  ) || "";
 }
 
 
+function escapeHTML(text) {
+  const div =
+    document.createElement("div");
 
-/* ==========================================
-   AUTOMATISK SLUG
-========================================== */
+  div.textContent =
+    String(text ?? "");
+
+  return div.innerHTML;
+}
+
 
 function makeSlug(text) {
-
   return text
     .toLowerCase()
     .normalize("NFD")
@@ -601,21 +843,689 @@ function makeSlug(text) {
     .replace(/ö/g, "o")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
-
 }
 
+
+function formatDate(dateString) {
+  if (!dateString) {
+    return "";
+  }
+
+  const date =
+    new Date(
+      `${dateString}T12:00:00`
+    );
+
+  return date.toLocaleDateString(
+    "sv-SE",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }
+  );
+}
+
+
+function formatUpdated(dateString) {
+  if (!dateString) {
+    return "";
+  }
+
+  const date =
+    new Date(dateString);
+
+  return date.toLocaleString(
+    "sv-SE",
+    {
+      dateStyle: "short",
+      timeStyle: "short"
+    }
+  );
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+const savedKey =
+  sessionStorage.getItem(
+    "tackelbergaAdminKey"
+  );
+
+if (savedKey) {
+  passwordInput.value = savedKey;
+
+  attemptLogin(savedKey);
+}
+
+
+loginButton.addEventListener(
+  "click",
+  () => {
+    attemptLogin(
+      passwordInput.value.trim()
+    );
+  }
+);
+
+
+passwordInput.addEventListener(
+  "keydown",
+  event => {
+    if (event.key === "Enter") {
+      attemptLogin(
+        passwordInput.value.trim()
+      );
+    }
+  }
+);
+
+
+async function attemptLogin(key) {
+  if (!key) {
+    loginMessage.textContent =
+      "Ange redaktionslösenord.";
+
+    return;
+  }
+
+  loginButton.disabled = true;
+  loginButton.textContent =
+    "Loggar in...";
+
+  try {
+    const response =
+      await fetch(
+        "/.netlify/functions/articles",
+        {
+          headers: {
+            "x-admin-key": key
+          }
+        }
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        "Fel redaktionslösenord."
+      );
+    }
+
+    sessionStorage.setItem(
+      "tackelbergaAdminKey",
+      key
+    );
+
+    loginMessage.textContent =
+      "Inloggad.";
+
+    cmsContent.hidden = false;
+
+    await loadArticles();
+
+  } catch (error) {
+    sessionStorage.removeItem(
+      "tackelbergaAdminKey"
+    );
+
+    cmsContent.hidden = true;
+
+    loginMessage.textContent =
+      error.message;
+
+  } finally {
+    loginButton.disabled = false;
+    loginButton.textContent =
+      "Logga in";
+  }
+}
+
+
+/* =========================================================
+   VIEWS
+========================================================= */
+
+function showView(view) {
+  const navButtons =
+    document.querySelectorAll(
+      ".cms-nav-button"
+    );
+
+  navButtons.forEach(
+    button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.view === view
+      );
+    }
+  );
+
+  articlesView.hidden =
+    view !== "articles";
+
+  editorView.hidden =
+    view !== "editor";
+}
+
+
+document
+  .querySelectorAll(".cms-nav-button")
+  .forEach(
+    button => {
+      button.addEventListener(
+        "click",
+        () => {
+          if (
+            button.dataset.view ===
+            "editor"
+          ) {
+            newArticle();
+          } else {
+            showView("articles");
+          }
+        }
+      );
+    }
+  );
+
+
+document
+  .querySelector("#newArticleButton")
+  .addEventListener(
+    "click",
+    newArticle
+  );
+
+
+document
+  .querySelector("#backToArticles")
+  .addEventListener(
+    "click",
+    () => {
+      showView("articles");
+    }
+  );
+
+
+/* =========================================================
+   LADDA ARTIKLAR
+========================================================= */
+
+async function loadArticles() {
+  articleManager.innerHTML =
+    "<p>Laddar artiklar...</p>";
+
+  try {
+    const response =
+      await fetch(
+        "/.netlify/functions/articles",
+        {
+          headers: {
+            "x-admin-key":
+              getAdminKey()
+          }
+        }
+      );
+
+    if (!response.ok) {
+      throw new Error(
+        "Artiklarna kunde inte laddas."
+      );
+    }
+
+    allArticles =
+      await response.json();
+
+    renderArticles();
+
+  } catch (error) {
+    articleManager.innerHTML =
+      `<p>${escapeHTML(error.message)}</p>`;
+  }
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+document
+  .querySelectorAll(".cms-filter")
+  .forEach(
+    button => {
+      button.addEventListener(
+        "click",
+        () => {
+          currentFilter =
+            button.dataset.filter;
+
+          document
+            .querySelectorAll(
+              ".cms-filter"
+            )
+            .forEach(
+              filter => {
+                filter.classList.remove(
+                  "active"
+                );
+              }
+            );
+
+          button.classList.add(
+            "active"
+          );
+
+          renderArticles();
+        }
+      );
+    }
+  );
+
+
+/* =========================================================
+   RENDER ARTICLE MANAGER
+========================================================= */
+
+function renderArticles() {
+  let articles =
+    allArticles;
+
+  if (currentFilter !== "all") {
+    articles =
+      allArticles.filter(
+        article =>
+          article.status ===
+          currentFilter
+      );
+  }
+
+  if (!articles.length) {
+    articleManager.innerHTML = `
+      <div class="cms-empty">
+        <h3>Inga artiklar</h3>
+        <p>
+          Det finns inga artiklar i den här kategorin.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  articleManager.innerHTML = "";
+
+  articles.forEach(
+    article => {
+      const row =
+        document.createElement("article");
+
+      row.className =
+        "cms-article-row";
+
+      const image =
+        article.image
+          ? `
+            <img
+              src="${escapeHTML(article.image)}"
+              alt=""
+            >
+          `
+          : `
+            <div class="cms-no-image">
+              T
+            </div>
+          `;
+
+      const status =
+        article.status === "published"
+          ? `
+            <span class="cms-status published">
+              Publicerad
+            </span>
+          `
+          : `
+            <span class="cms-status draft">
+              Utkast
+            </span>
+          `;
+
+      row.innerHTML = `
+        <div class="cms-article-image">
+          ${image}
+        </div>
+
+        <div class="cms-article-info">
+
+          <div class="cms-article-meta">
+            <span>
+              ${escapeHTML(article.category)}
+            </span>
+
+            ${status}
+          </div>
+
+          <h3>
+            ${escapeHTML(article.title)}
+          </h3>
+
+          <p>
+            ${escapeHTML(article.intro)}
+          </p>
+
+          <div class="cms-article-details">
+
+            <span>
+              ${escapeHTML(article.author)}
+            </span>
+
+            <span>
+              ${formatDate(article.date)}
+            </span>
+
+            ${
+              article.updatedAt
+                ? `
+                  <span>
+                    Ändrad:
+                    ${formatUpdated(article.updatedAt)}
+                  </span>
+                `
+                : ""
+            }
+
+          </div>
+
+        </div>
+
+
+        <div class="cms-article-actions">
+
+          ${
+            article.status ===
+            "published"
+              ? `
+                <a
+                  href="article.html?slug=${encodeURIComponent(article.slug)}"
+                  target="_blank"
+                  class="cms-view-link"
+                >
+                  Visa
+                </a>
+              `
+              : ""
+          }
+
+          <button
+            type="button"
+            class="cms-edit-button"
+            data-slug="${escapeHTML(article.slug)}"
+          >
+            Redigera
+          </button>
+
+          <button
+            type="button"
+            class="cms-row-delete"
+            data-slug="${escapeHTML(article.slug)}"
+          >
+            Radera
+          </button>
+
+        </div>
+      `;
+
+      articleManager.appendChild(
+        row
+      );
+    }
+  );
+
+
+  document
+    .querySelectorAll(
+      ".cms-edit-button"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            editArticle(
+              button.dataset.slug
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".cms-row-delete"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            openDeleteModal(
+              button.dataset.slug
+            );
+          }
+        );
+      }
+    );
+}
+
+
+/* =========================================================
+   NY ARTIKEL
+========================================================= */
+
+function newArticle() {
+  articleForm.reset();
+
+  originalSlugInput.value = "";
+
+  currentImageUrl = "";
+
+  slugWasManuallyEdited = false;
+
+  document.querySelector(
+    "#date"
+  ).value =
+    new Date()
+      .toISOString()
+      .slice(0, 10);
+
+  document.querySelector(
+    "#currentImageBox"
+  ).hidden = true;
+
+  document.querySelector(
+    "#previewImage"
+  ).innerHTML =
+    "Ingen bild vald";
+
+  document.querySelector(
+    "#editorEyebrow"
+  ).textContent =
+    "NY ARTIKEL";
+
+  document.querySelector(
+    "#editorHeading"
+  ).textContent =
+    "Skapa artikel";
+
+  publishButton.textContent =
+    "Publicera artikel";
+
+  publishMessage.textContent = "";
+
+  imageStatus.textContent = "";
+
+  updatePreview();
+
+  showView("editor");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* =========================================================
+   REDIGERA
+========================================================= */
+
+function editArticle(slug) {
+  const article =
+    allArticles.find(
+      item =>
+        item.slug === slug
+    );
+
+  if (!article) {
+    return;
+  }
+
+  originalSlugInput.value =
+    article.slug;
+
+  titleInput.value =
+    article.title || "";
+
+  slugInput.value =
+    article.slug || "";
+
+  document.querySelector(
+    "#category"
+  ).value =
+    article.category || "Nyhet";
+
+  document.querySelector(
+    "#date"
+  ).value =
+    article.date || "";
+
+  document.querySelector(
+    "#author"
+  ).value =
+    article.author || "";
+
+  document.querySelector(
+    "#intro"
+  ).value =
+    article.intro || "";
+
+  document.querySelector(
+    "#content"
+  ).value =
+    article.content || "";
+
+  document.querySelector(
+    "#quote"
+  ).value =
+    article.quote || "";
+
+  document.querySelector(
+    "#quotePerson"
+  ).value =
+    article.quotePerson || "";
+
+  document.querySelector(
+    "#imageCaption"
+  ).value =
+    article.imageCaption || "";
+
+  document.querySelector(
+    "#status"
+  ).value =
+    article.status || "published";
+
+  document.querySelector(
+    "#showLatest"
+  ).checked =
+    Boolean(article.showLatest);
+
+  document.querySelector(
+    "#isLead"
+  ).checked =
+    Boolean(article.isLead);
+
+  currentImageUrl =
+    article.image || "";
+
+  imageInput.value = "";
+
+  slugWasManuallyEdited = true;
+
+
+  const imageBox =
+    document.querySelector(
+      "#currentImageBox"
+    );
+
+  const currentImage =
+    document.querySelector(
+      "#currentImage"
+    );
+
+
+  if (currentImageUrl) {
+    imageBox.hidden = false;
+
+    currentImage.src =
+      currentImageUrl;
+
+  } else {
+    imageBox.hidden = true;
+  }
+
+
+  document.querySelector(
+    "#editorEyebrow"
+  ).textContent =
+    "REDIGERA ARTIKEL";
+
+  document.querySelector(
+    "#editorHeading"
+  ).textContent =
+    article.title;
+
+  publishButton.textContent =
+    "Spara ändringar";
+
+  publishMessage.textContent = "";
+
+  imageStatus.textContent = "";
+
+  updatePreview();
+
+  showView("editor");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* =========================================================
+   SLUG
+========================================================= */
 
 titleInput.addEventListener(
   "input",
   () => {
-
     if (!slugWasManuallyEdited) {
-
       slugInput.value =
-        makeSlug(titleInput.value);
-
+        makeSlug(
+          titleInput.value
+        );
     }
-
   }
 );
 
@@ -623,31 +1533,18 @@ titleInput.addEventListener(
 slugInput.addEventListener(
   "input",
   () => {
-
     slugWasManuallyEdited = true;
-
   }
 );
 
 
-
-/* ==========================================
-   DATUM IDAG
-========================================== */
-
-document.querySelector("#date").value =
-  new Date().toISOString().slice(0, 10);
-
-
-
-/* ==========================================
-   BILD-PREVIEW
-========================================== */
+/* =========================================================
+   IMAGE PREVIEW
+========================================================= */
 
 imageInput.addEventListener(
   "change",
   () => {
-
     const file =
       imageInput.files[0];
 
@@ -658,95 +1555,116 @@ imageInput.addEventListener(
     const url =
       URL.createObjectURL(file);
 
-    document.querySelector("#previewImage").innerHTML =
-      `<img src="${url}" alt="Förhandsvisning">`;
-
+    document.querySelector(
+      "#previewImage"
+    ).innerHTML = `
+      <img
+        src="${url}"
+        alt=""
+      >
+    `;
   }
 );
 
 
-
-/* ==========================================
+/* =========================================================
    PREVIEW
-========================================== */
+========================================================= */
 
 function updatePreview() {
+  document.querySelector(
+    "#previewTitle"
+  ).textContent =
+    titleInput.value ||
+    "Artikelrubrik";
 
-  const title =
-    titleInput.value || "Artikelrubrik";
+  document.querySelector(
+    "#previewCategory"
+  ).textContent =
+    (
+      document.querySelector(
+        "#category"
+      ).value || "Nyhet"
+    ).toUpperCase();
 
-  const category =
-    document.querySelector("#category").value;
-
-  const intro =
-    document.querySelector("#intro").value ||
+  document.querySelector(
+    "#previewIntro"
+  ).textContent =
+    document.querySelector(
+      "#intro"
+    ).value ||
     "Artikelns ingress visas här.";
 
+
   const quote =
-    document.querySelector("#quote").value;
+    document.querySelector(
+      "#quote"
+    ).value;
 
-  const quotePerson =
-    document.querySelector("#quotePerson").value;
-
-
-  document.querySelector("#previewTitle").textContent =
-    title;
-
-  document.querySelector("#previewCategory").textContent =
-    category.toUpperCase();
-
-  document.querySelector("#previewIntro").textContent =
-    intro;
-
+  const person =
+    document.querySelector(
+      "#quotePerson"
+    ).value;
 
   const quoteBox =
-    document.querySelector("#previewQuote");
+    document.querySelector(
+      "#previewQuote"
+    );
 
 
   if (quote) {
-
     quoteBox.hidden = false;
 
     quoteBox.textContent =
-      `“${quote}”${quotePerson ? ` — ${quotePerson}` : ""}`;
+      `“${quote}”${
+        person
+          ? ` — ${person}`
+          : ""
+      }`;
 
   } else {
-
     quoteBox.hidden = true;
-
   }
 
+
+  if (
+    !imageInput.files[0] &&
+    currentImageUrl
+  ) {
+    document.querySelector(
+      "#previewImage"
+    ).innerHTML = `
+      <img
+        src="${escapeHTML(currentImageUrl)}"
+        alt=""
+      >
+    `;
+  }
 }
 
 
-document.querySelector("#previewButton")
-  .addEventListener(
-    "click",
-    updatePreview
-  );
+document.querySelector(
+  "#previewButton"
+).addEventListener(
+  "click",
+  updatePreview
+);
 
 
-
-/* ==========================================
-   BILDUPPLADDNING
-========================================== */
+/* =========================================================
+   UPLOAD IMAGE
+========================================================= */
 
 async function uploadImage() {
-
   const file =
     imageInput.files[0];
 
-
   if (!file) {
-
-    return uploadedImageUrl;
-
+    return currentImageUrl;
   }
-
 
   imageStatus.textContent =
     "Laddar upp bild...";
-
 
   const data =
     new FormData();
@@ -755,7 +1673,6 @@ async function uploadImage() {
     "file",
     file
   );
-
 
   const response =
     await fetch(
@@ -772,75 +1689,49 @@ async function uploadImage() {
       }
     );
 
-
   const result =
     await response.json();
 
-
   if (!response.ok) {
-
     throw new Error(
       result.error ||
       "Bilden kunde inte laddas upp."
     );
-
   }
 
-
-  uploadedImageUrl =
+  currentImageUrl =
     result.url;
-
 
   imageStatus.textContent =
     "Bilden är uppladdad.";
 
-
-  return uploadedImageUrl;
-
+  return currentImageUrl;
 }
 
 
+/* =========================================================
+   SAVE
+========================================================= */
 
-/* ==========================================
-   PUBLICERA
-========================================== */
-
-form.addEventListener(
+articleForm.addEventListener(
   "submit",
-  async (event) => {
-
+  async event => {
     event.preventDefault();
-
-
-    const adminKey =
-      getAdminKey();
-
-
-    if (!adminKey) {
-
-      publishMessage.textContent =
-        "Ange redaktionslösenord först.";
-
-      return;
-
-    }
-
 
     publishButton.disabled = true;
 
     publishButton.textContent =
-      "Publicerar...";
+      "Sparar...";
 
     publishMessage.textContent = "";
 
-
     try {
-
       const image =
         await uploadImage();
 
-
       const article = {
+        originalSlug:
+          originalSlugInput.value,
 
         title:
           titleInput.value,
@@ -849,40 +1740,61 @@ form.addEventListener(
           slugInput.value,
 
         category:
-          document.querySelector("#category").value,
+          document.querySelector(
+            "#category"
+          ).value,
 
         date:
-          document.querySelector("#date").value,
+          document.querySelector(
+            "#date"
+          ).value,
 
         author:
-          document.querySelector("#author").value,
+          document.querySelector(
+            "#author"
+          ).value,
 
         intro:
-          document.querySelector("#intro").value,
+          document.querySelector(
+            "#intro"
+          ).value,
 
         content:
-          document.querySelector("#content").value,
+          document.querySelector(
+            "#content"
+          ).value,
 
         quote:
-          document.querySelector("#quote").value,
+          document.querySelector(
+            "#quote"
+          ).value,
 
         quotePerson:
-          document.querySelector("#quotePerson").value,
+          document.querySelector(
+            "#quotePerson"
+          ).value,
 
         image,
 
         imageCaption:
-          document.querySelector("#imageCaption").value,
+          document.querySelector(
+            "#imageCaption"
+          ).value,
 
         showLatest:
-          document.querySelector("#showLatest").checked,
+          document.querySelector(
+            "#showLatest"
+          ).checked,
 
         isLead:
-          document.querySelector("#isLead").checked,
+          document.querySelector(
+            "#isLead"
+          ).checked,
 
         status:
-          document.querySelector("#status").value
-
+          document.querySelector(
+            "#status"
+          ).value
       };
 
 
@@ -890,22 +1802,18 @@ form.addEventListener(
         await fetch(
           "/.netlify/functions/articles",
           {
-
             method: "POST",
 
             headers: {
-
               "Content-Type":
                 "application/json",
 
               "x-admin-key":
-                adminKey
-
+                getAdminKey()
             },
 
             body:
               JSON.stringify(article)
-
           }
         );
 
@@ -915,54 +1823,153 @@ form.addEventListener(
 
 
       if (!response.ok) {
-
         throw new Error(
           result.error ||
-          "Artikeln kunde inte publiceras."
+          "Artikeln kunde inte sparas."
         );
-
       }
 
 
-      if (article.status === "published") {
+      originalSlugInput.value =
+        result.slug;
 
-        publishMessage.innerHTML = `
-          Artikeln är publicerad.
-          <a
-            href="article.html?slug=${encodeURIComponent(article.slug)}"
-            target="_blank"
-          >
-            Öppna artikeln →
-          </a>
-        `;
+      publishMessage.textContent =
+        result.status === "published"
+          ? "Artikeln är publicerad."
+          : "Utkastet är sparat.";
 
-      } else {
 
-        publishMessage.textContent =
-          "Utkastet är sparat.";
+      await loadArticles();
 
-      }
+
+      setTimeout(
+        () => {
+          showView("articles");
+        },
+        900
+      );
 
     } catch (error) {
-
       publishMessage.textContent =
         error.message;
 
     } finally {
-
       publishButton.disabled = false;
 
       publishButton.textContent =
-        "Publicera artikel";
+        originalSlugInput.value
+          ? "Spara ändringar"
+          : "Publicera artikel";
+    }
+  }
+);
 
+
+/* =========================================================
+   DELETE MODAL
+========================================================= */
+
+function openDeleteModal(slug) {
+  const article =
+    allArticles.find(
+      item =>
+        item.slug === slug
+    );
+
+  if (!article) {
+    return;
+  }
+
+  articleToDelete =
+    article;
+
+  document.querySelector(
+    "#deleteArticleTitle"
+  ).textContent =
+    article.title;
+
+  document.querySelector(
+    "#deleteModal"
+  ).hidden = false;
+}
+
+
+document.querySelector(
+  "#cancelDelete"
+).addEventListener(
+  "click",
+  () => {
+    articleToDelete = null;
+
+    document.querySelector(
+      "#deleteModal"
+    ).hidden = true;
+  }
+);
+
+
+document.querySelector(
+  "#confirmDelete"
+).addEventListener(
+  "click",
+  async () => {
+    if (!articleToDelete) {
+      return;
     }
 
+    const button =
+      document.querySelector(
+        "#confirmDelete"
+      );
+
+    button.disabled = true;
+    button.textContent =
+      "Raderar...";
+
+    try {
+      const response =
+        await fetch(
+          `/.netlify/functions/articles?slug=${encodeURIComponent(articleToDelete.slug)}`,
+          {
+            method: "DELETE",
+
+            headers: {
+              "x-admin-key":
+                getAdminKey()
+            }
+          }
+        );
+
+      const result =
+        await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          result.error ||
+          "Artikeln kunde inte raderas."
+        );
+      }
+
+      document.querySelector(
+        "#deleteModal"
+      ).hidden = true;
+
+      articleToDelete = null;
+
+      await loadArticles();
+
+    } catch (error) {
+      alert(error.message);
+
+    } finally {
+      button.disabled = false;
+      button.textContent =
+        "Radera permanent";
+    }
   }
 );
 
 </script>
 
-
 </body>
-
 </html>
