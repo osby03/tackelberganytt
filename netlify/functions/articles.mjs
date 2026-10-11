@@ -43,6 +43,7 @@ export default async function handler(req) {
       category:clean(body.category,50),author:clean(body.author,80),date:clean(body.date,20),
       intro:clean(body.intro,1000),content:clean(body.content,30000),quote:clean(body.quote,500),
       quotePerson:clean(body.quotePerson,100),image:clean(body.image,1000),imageCaption:clean(body.imageCaption,500),
+      factTitle:clean(body.factTitle,140),factText:clean(body.factText,2500),factImage:clean(body.factImage,1000),
       showLatest:Boolean(body.showLatest),isLead:Boolean(body.isLead),
       status:body.status==="draft"?"draft":"published",
       questions:Array.isArray(body.questions)?body.questions.slice(0,40).map(q=>({question:clean(q.question,500),answer:clean(q.answer,6000)})):[],
