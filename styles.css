@@ -3888,3 +3888,32 @@ a {
   .engagement-share button{display:inline-flex;align-items:center;gap:9px;background:transparent;border:1px solid var(--line);font-size:.85rem}
   .engagement-share button svg{flex-shrink:0}
 }
+
+/* ==========================================================
+   SENASTE NYTT – DRAGBAR OÄNDLIG NYHETSREMSA
+   Dessa regler ersätter den tidigare CSS-animationen.
+========================================================== */
+.breaking-window {
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.breaking-window.ticker-dragging { cursor: grabbing; }
+.breaking-track,
+.breaking-track:hover {
+  animation: none !important;
+  animation-play-state: paused;
+  gap: 0;
+  padding-left: 0;
+  will-change: transform;
+}
+.ticker-group {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 22px 0 0;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.breaking-track a { user-select: none; -webkit-user-drag: none; }
