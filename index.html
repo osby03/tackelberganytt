@@ -33,6 +33,87 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="cms-extra.css">
 
+<style>
+  /* Nedräkning till klubbfinalerna */
+  .final-countdown {
+    background: #111;
+    color: #fbf8f0;
+    border-bottom: 5px solid var(--accent, #11b8ae);
+  }
+  .final-countdown-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+  .final-countdown-label {
+    color: var(--accent, #11b8ae);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-size: .7rem;
+    margin: 0 0 5px;
+  }
+  .final-countdown-heading {
+    font-family: var(--serif, Georgia, serif);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1.06;
+    margin: 0 0 7px;
+  }
+  .final-countdown-date {
+    font-size: .8rem;
+    color: #c9c9c9;
+    margin: 0;
+  }
+  .final-countdown-clock {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(67px, 90px));
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .final-countdown-unit {
+    background: #232323;
+    border: 1px solid #3b3b3b;
+    padding: 12px 6px 10px;
+    text-align: center;
+  }
+  .final-countdown-number {
+    display: block;
+    color: white;
+    font-family: var(--serif, Georgia, serif);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 900;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .final-countdown-unit-label {
+    display: block;
+    margin-top: 5px;
+    font-size: .62rem;
+    letter-spacing: .07em;
+    color: #c3c3c3;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .final-countdown-ended {
+    display: none;
+    color: var(--accent, #11b8ae);
+    font-family: var(--serif, Georgia, serif);
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-align: right;
+  }
+  .final-countdown.is-ended .final-countdown-clock { display: none; }
+  .final-countdown.is-ended .final-countdown-ended { display: block; }
+  @media (max-width: 750px) {
+    .final-countdown-inner { flex-direction: column; align-items: stretch; gap: 18px; }
+    .final-countdown-clock { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .final-countdown-unit { padding: 12px 3px 9px; }
+    .final-countdown-ended { text-align: left; }
+  }
+</style>
 </head>
 
 
@@ -203,6 +284,24 @@
   </section>
 
 </header>
+
+<!-- NEDRÄKNING TILL KLUBBFINALERNA -->
+<section class="final-countdown" id="finalCountdown" aria-label="Nedräkning till klubbfinalerna">
+  <div class="container final-countdown-inner">
+    <div>
+      <p class="final-countdown-label">World of Chel · NHL 27</p>
+      <h2 class="final-countdown-heading">Nedräkning till klubbfinalerna</h2>
+      <p class="final-countdown-date">Torsdag 5 november 2026 · Kl. 19.00 svensk tid</p>
+    </div>
+    <div class="final-countdown-clock" role="timer" aria-label="Tid kvar till klubbfinalerna">
+      <div class="final-countdown-unit"><span class="final-countdown-number" id="finalDays">--</span><span class="final-countdown-unit-label">Dagar</span></div>
+      <div class="final-countdown-unit"><span class="final-countdown-number" id="finalHours">--</span><span class="final-countdown-unit-label">Timmar</span></div>
+      <div class="final-countdown-unit"><span class="final-countdown-number" id="finalMinutes">--</span><span class="final-countdown-unit-label">Minuter</span></div>
+      <div class="final-countdown-unit"><span class="final-countdown-number" id="finalSeconds">--</span><span class="final-countdown-unit-label">Sekunder</span></div>
+    </div>
+    <p class="final-countdown-ended" role="status">Klubbfinalerna har börjat!</p>
+  </div>
+</section>
 
 
 
@@ -1089,6 +1188,35 @@
 
 <script src="script.js"></script>
 
+<script>
+  (() => {
+    // Den 5 november är Sverige på normaltid (CET, UTC+01:00).
+    // Explicit tidszon gör att nedräkningen stämmer även för besökare utomlands.
+    const finalStart = new Date("2026-11-05T19:00:00+01:00").getTime();
+    const countdown = document.getElementById("finalCountdown");
+    if (!countdown) return;
+    const days = document.getElementById("finalDays");
+    const hours = document.getElementById("finalHours");
+    const minutes = document.getElementById("finalMinutes");
+    const seconds = document.getElementById("finalSeconds");
+    let interval;
+    function updateFinalCountdown() {
+      const remaining = Math.max(0, finalStart - Date.now());
+      if (remaining === 0) {
+        countdown.classList.add("is-ended");
+        clearInterval(interval);
+        return;
+      }
+      const totalSeconds = Math.floor(remaining / 1000);
+      days.textContent = String(Math.floor(totalSeconds / 86400));
+      hours.textContent = String(Math.floor((totalSeconds % 86400) / 3600)).padStart(2, "0");
+      minutes.textContent = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+      seconds.textContent = String(totalSeconds % 60).padStart(2, "0");
+    }
+    updateFinalCountdown();
+    interval = setInterval(updateFinalCountdown, 1000);
+  })();
+</script>
 </body>
 
 </html>
