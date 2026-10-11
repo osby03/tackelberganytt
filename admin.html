@@ -30,6 +30,7 @@
     rel="stylesheet"
     href="styles.css"
   >
+  <link rel="stylesheet" href="cms-extra.css">
 </head>
 
 <body>
@@ -142,6 +143,7 @@
         + Ny artikel
       </button>
 
+      <button type="button" class="cms-nav-button" data-view="statistics" id="statsNav">Statistik</button>
     </div>
 
 
@@ -402,10 +404,30 @@
             </div>
 
 
+            <div id="categoryHelp" class="cms-field cms-field-full cms-category-note"></div>
+            <div class="cms-field cms-field-full" id="interviewSection" hidden>
+              <div class="cms-subheading">Intervjufrågor och svar</div>
+              <p class="cms-help">Lägg till hur många frågor du vill. Artikeltexten nedanför är valfri för intervjuer.</p>
+              <div id="interviewQuestions"></div>
+              <button type="button" class="cms-secondary-button" id="addQuestionButton">+ Lägg till fråga</button>
+            </div>
+            <div class="cms-field cms-field-full" id="columnSection" hidden>
+              <label for="columnConclusion">Avslutande tanke (valfritt)</label>
+              <textarea id="columnConclusion" placeholder="Krönikans slutsats..."></textarea>
+            </div>
+            <div class="cms-field cms-field-full" id="profileSection" hidden>
+              <label for="profilePlayer">Spelare i fokus</label>
+              <select id="profilePlayer"><option value="">Välj spelare</option><option>Suwaibo Kebbeh</option><option>Bob Benson</option><option>Ibrahima Fofana</option><option>Steinke Brånby</option><option>Lehmann</option><option>Wagner</option></select>
+            </div>
+            <div class="cms-field cms-field-full" id="analysisSection" hidden>
+              <label for="analysisSummary">Analysens slutsats (valfritt)</label>
+              <textarea id="analysisSummary" placeholder="Vad visar analysen?"></textarea>
+            </div>
+
             <div class="cms-field cms-field-full">
 
               <label for="content">
-                Artikeltext *
+                Artikeltext <span id="contentRequiredMark">*</span>
               </label>
 
               <textarea
@@ -688,6 +710,21 @@ Använd en tom rad mellan stycken."
 
     </section>
 
+    <!-- STATISTIKREDAKTÖR -->
+    <section id="statisticsView" class="cms-view" hidden>
+      <div class="cms-section-heading"><div><span class="cms-eyebrow">STATISTIK</span><h2>Uppdatera lag och spelare</h2></div></div>
+      <p>Ändringarna blir synliga på statistiksidan direkt efter att du sparat. Poäng räknas automatiskt som mål + assist.</p>
+      <form id="statisticsForm" class="cms-editor-form">
+        <h3>Lagstatistik</h3>
+        <div class="cms-form-grid" id="teamStatsFields"></div>
+        <h3>Spelarstatistik</h3>
+        <div class="cms-table-scroll"><table class="cms-stats-table"><thead><tr><th>Spelare</th><th>Pos.</th><th>Matcher</th><th>Mål</th><th>Assist</th><th>Poäng</th><th>Block</th><th>Tacklingar</th><th>Utv.</th></tr></thead><tbody id="playerStatsRows"></tbody></table></div>
+        <p class="cms-help">Spelarnamn och positioner är fasta i denna första version. Poäng räknas automatiskt.</p>
+        <div class="cms-form-actions"><button type="submit" id="saveStatsButton" class="cms-primary-button">Spara statistik</button></div>
+        <p id="statsMessage" class="cms-message" role="status"></p>
+      </form>
+    </section>
+
   </div>
 
 </main>
@@ -799,6 +836,9 @@ const publishMessage =
 const publishButton =
   document.querySelector("#publishButton");
 
+const statusSelect =
+  document.querySelector("#status");
+
 
 let allArticles = [];
 
@@ -810,6 +850,88 @@ let slugWasManuallyEdited = false;
 
 let articleToDelete = null;
 
+
+/* ARTIKELTYPER */
+const categoryInput = document.querySelector("#category");
+const contentInput = document.querySelector("#content");
+const questionsBox = document.querySelector("#interviewQuestions");
+let editingInterviewQuestions = [];
+function addInterviewQuestion(question = "", answer = "") {
+  const item = document.createElement("div");
+  item.className = "cms-question-item";
+  item.innerHTML = `<label>Fråga</label><input class="iq-question" maxlength="500" placeholder="Skriv frågan..."><label>Svar</label><textarea class="iq-answer" placeholder="Klistra in svaret..."></textarea><button type="button" class="cms-secondary-button iq-remove">Ta bort fråga</button>`;
+  item.querySelector(".iq-question").value = question;
+  item.querySelector(".iq-answer").value = answer;
+  item.querySelector(".iq-remove").addEventListener("click", () => item.remove());
+  questionsBox.append(item);
+}
+function setCategoryFields() {
+  const category = categoryInput.value;
+  const interview = category === "Intervju";
+  document.querySelector("#interviewSection").hidden = !interview;
+  document.querySelector("#columnSection").hidden = category !== "Krönika";
+  document.querySelector("#profileSection").hidden = category !== "Profil";
+  document.querySelector("#analysisSection").hidden = category !== "Analys";
+  contentInput.required = !interview;
+  document.querySelector("#contentRequiredMark").textContent = interview ? "(valfritt)" : "*";
+  const messages = {
+    "Nyhet":"Vanlig nyhet: rubrik, ingress, bild och text. Sidan sköter layouten.",
+    "Intervju":"Skriv en kort introduktion i artikeltexten om du vill. Lägg sedan till valfritt antal frågor och svar.",
+    "Krönika":"Din vanliga artikeltext och eventuellt en avslutande tanke visas med en mer textbetonad layout.",
+    "Profil":"Välj spelare så får reportaget en särskild spelaretikett.",
+    "Analys":"Lägg gärna till en slutsats. Sidan visar analysen i en särskild faktaruta.",
+    "Senaste nytt":"En kort nyhetsnotis. Ingressen och texten räcker; bild är frivillig."
+  };
+  document.querySelector("#categoryHelp").textContent = messages[category] || "";
+  if (interview && !questionsBox.children.length) addInterviewQuestion();
+}
+categoryInput.addEventListener("change", setCategoryFields);
+document.querySelector("#addQuestionButton").addEventListener("click", () => addInterviewQuestion());
+function getInterviewQuestions() {
+  return [...questionsBox.querySelectorAll(".cms-question-item")].map(item => ({
+    question: item.querySelector(".iq-question").value.trim(),
+    answer: item.querySelector(".iq-answer").value.trim()
+  })).filter(row => row.question || row.answer);
+}
+
+/* STATISTIK */
+const defaultStats = {
+  team: {wins:21,losses:42,otLosses:3,goalsFor:151,goalsAgainst:212,powerplay:17.8,boxplay:78.5},
+  players: [
+    {id:"kebbeh",name:"Suwaibo Kebbeh",position:"C",games:66,goals:56,assists:61,blocks:38,hits:288,pim:215},
+    {id:"benson",name:"Bob Benson",position:"LW",games:66,goals:47,assists:67,blocks:37,hits:148,pim:134},
+    {id:"fofana",name:"Ibrahima Fofana",position:"RD",games:66,goals:23,assists:37,blocks:104,hits:145,pim:213},
+    {id:"branby",name:"Steinke Brånby",position:"LD",games:28,goals:0,assists:25,blocks:3,hits:4,pim:65}
+  ]
+};
+const statLabels = {wins:"Vinster",losses:"Förluster",otLosses:"OT-förluster",goalsFor:"Gjorda mål",goalsAgainst:"Insläppta mål",powerplay:"Powerplay (%)",boxplay:"Boxplay (%)"};
+const playerFields = ["games","goals","assists","blocks","hits","pim"];
+let currentStats = structuredClone(defaultStats);
+function renderStatsEditor(stats) {
+  currentStats = stats;
+  document.querySelector("#teamStatsFields").innerHTML = Object.entries(statLabels).map(([key,label]) => `<div class="cms-field"><label for="team-${key}">${label}</label><input type="number" min="0" ${["powerplay","boxplay"].includes(key)?'max="100" step="0.1"':'step="1"'} id="team-${key}" value="${Number(stats.team[key])}"></div>`).join("");
+  document.querySelector("#playerStatsRows").innerHTML = stats.players.map(p => `<tr data-id="${p.id}"><td><strong>${escapeHTML(p.name)}</strong></td><td>${escapeHTML(p.position)}</td>${playerFields.map(field => `<td><input type="number" min="0" step="1" data-field="${field}" value="${Number(p[field])}" aria-label="${escapeHTML(p.name)} ${field}"></td>`).slice(0,3).join("")}<td class="calculated-points">${p.goals+p.assists}</td>${playerFields.slice(3).map(field=>`<td><input type="number" min="0" step="1" data-field="${field}" value="${Number(p[field])}" aria-label="${escapeHTML(p.name)} ${field}"></td>`).join("")}</tr>`).join("");
+  document.querySelectorAll("#playerStatsRows tr").forEach(tr => tr.addEventListener("input",()=>{
+    tr.querySelector(".calculated-points").textContent = Number(tr.querySelector('[data-field="goals"]').value)+Number(tr.querySelector('[data-field="assists"]').value);
+  }));
+}
+async function loadStatsEditor() {
+  const m = document.querySelector("#statsMessage"); m.textContent="Laddar statistik...";
+  try { const r = await fetch("/.netlify/functions/statistics",{cache:"no-store"}); if(!r.ok)throw new Error("Kunde inte ladda statistik."); renderStatsEditor(await r.json()); m.textContent=""; }
+  catch(e){renderStatsEditor(structuredClone(defaultStats));m.textContent="Kunde inte hämta sparad statistik. Kontrollera att statistics.mjs är publicerad innan du sparar.";}
+}
+document.querySelector("#statisticsForm").addEventListener("submit",async e => {
+  e.preventDefault(); const btn=document.querySelector("#saveStatsButton"), m=document.querySelector("#statsMessage");
+  const team=Object.fromEntries(Object.keys(statLabels).map(key=>[key,Number(document.querySelector(`#team-${key}`).value)]));
+  const players=currentStats.players.map(p=>{
+    const tr=document.querySelector(`#playerStatsRows tr[data-id="${p.id}"]`);
+    return {...p,...Object.fromEntries(playerFields.map(k=>[k,Number(tr.querySelector(`[data-field="${k}"]`).value)]))};
+  });
+  btn.disabled=true; m.textContent="Sparar...";
+  try {const r=await fetch("/.netlify/functions/statistics",{method:"PUT",headers:{"Content-Type":"application/json","x-admin-key":getAdminKey()},body:JSON.stringify({team,players})}); const res=await r.json(); if(!r.ok)throw new Error(res.error||"Statistiken kunde inte sparas.");currentStats=res; m.textContent="Statistiken är sparad och syns på statistiksidan.";}
+  catch(error){m.textContent=error.message;}
+  finally{btn.disabled=false;}
+});
 
 /* =========================================================
    HELPERS
@@ -885,6 +1007,32 @@ function formatUpdated(dateString) {
 }
 
 
+function updatePublishButtonText() {
+  const isEditing =
+    Boolean(originalSlugInput.value);
+
+  if (isEditing) {
+    publishButton.textContent =
+      "Spara ändringar";
+    return;
+  }
+
+  if (statusSelect.value === "draft") {
+    publishButton.textContent =
+      "Spara som utkast";
+  } else {
+    publishButton.textContent =
+      "Publicera artikel";
+  }
+}
+
+
+statusSelect.addEventListener(
+  "change",
+  updatePublishButtonText
+);
+
+
 /* =========================================================
    LOGIN
 ========================================================= */
@@ -938,7 +1086,7 @@ async function attemptLogin(key) {
   try {
     const response =
       await fetch(
-        "/.netlify/functions/articles",
+        "/.netlify/functions/articles?adminCheck=1",
         {
           headers: {
             "x-admin-key": key
@@ -1006,6 +1154,7 @@ function showView(view) {
 
   editorView.hidden =
     view !== "editor";
+  document.querySelector("#statisticsView").hidden = view !== "statistics";
 }
 
 
@@ -1016,11 +1165,11 @@ document
       button.addEventListener(
         "click",
         () => {
-          if (
-            button.dataset.view ===
-            "editor"
-          ) {
+          if (button.dataset.view === "editor") {
             newArticle();
+          } else if (button.dataset.view === "statistics") {
+            showView("statistics");
+            loadStatsEditor();
           } else {
             showView("articles");
           }
@@ -1325,7 +1474,8 @@ function renderArticles() {
 
 function newArticle() {
   articleForm.reset();
-
+  questionsBox.innerHTML = "";
+  setCategoryFields();
   originalSlugInput.value = "";
 
   currentImageUrl = "";
@@ -1358,8 +1508,7 @@ function newArticle() {
   ).textContent =
     "Skapa artikel";
 
-  publishButton.textContent =
-    "Publicera artikel";
+  updatePublishButtonText();
 
   publishMessage.textContent = "";
 
@@ -1393,6 +1542,11 @@ function editArticle(slug) {
 
   originalSlugInput.value =
     article.slug;
+  questionsBox.innerHTML = "";
+  for (const qa of (article.questions || [])) addInterviewQuestion(qa.question, qa.answer);
+  document.querySelector("#columnConclusion").value = article.columnConclusion || "";
+  document.querySelector("#profilePlayer").value = article.profilePlayer || "";
+  document.querySelector("#analysisSummary").value = article.analysisSummary || "";
 
   titleInput.value =
     article.title || "";
@@ -1405,6 +1559,7 @@ function editArticle(slug) {
   ).value =
     article.category || "Nyhet";
 
+  setCategoryFields();
   document.querySelector(
     "#date"
   ).value =
@@ -1495,8 +1650,7 @@ function editArticle(slug) {
   ).textContent =
     article.title;
 
-  publishButton.textContent =
-    "Spara ändringar";
+  updatePublishButtonText();
 
   publishMessage.textContent = "";
 
@@ -1726,6 +1880,9 @@ articleForm.addEventListener(
     publishMessage.textContent = "";
 
     try {
+      const questions = categoryInput.value === "Intervju" ? getInterviewQuestions() : [];
+      if (questions.some(qa => !qa.question || !qa.answer)) throw new Error("Fyll i både fråga och svar i varje intervjufråga.");
+      if (categoryInput.value === "Intervju" && !questions.length && !contentInput.value.trim()) throw new Error("Lägg till minst en intervjufråga eller skriv artikeltext.");
       const image =
         await uploadImage();
 
@@ -1763,6 +1920,10 @@ articleForm.addEventListener(
           document.querySelector(
             "#content"
           ).value,
+        questions,
+        columnConclusion: document.querySelector("#columnConclusion").value,
+        profilePlayer: document.querySelector("#profilePlayer").value,
+        analysisSummary: document.querySelector("#analysisSummary").value,
 
         quote:
           document.querySelector(
@@ -1856,10 +2017,7 @@ articleForm.addEventListener(
     } finally {
       publishButton.disabled = false;
 
-      publishButton.textContent =
-        originalSlugInput.value
-          ? "Spara ändringar"
-          : "Publicera artikel";
+      updatePublishButtonText();
     }
   }
 );
