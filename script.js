@@ -46,40 +46,50 @@ document
    SENASTE NYTT
 ========================================================== */
 
-const breakingTrack =
-  document.querySelector("#breakingTrack");
-
-if (breakingTrack) {
-
-  const originalContent =
-    breakingTrack.innerHTML;
-
-  breakingTrack.innerHTML += originalContent;
-
+const breakingTrack = document.querySelector("#breakingTrack");
+const cmsEscape = value => {const el=document.createElement("div"); el.textContent=String(value??""); return el.innerHTML;};
+const cmsHref = a => "article.html?slug=" + encodeURIComponent(a.slug);
+function duplicateTicker(){
+  if (!breakingTrack || breakingTrack.dataset.duplicated) return;
+  breakingTrack.innerHTML += breakingTrack.innerHTML;
+  breakingTrack.dataset.duplicated="true";
 }
-
-
-/* ==========================================================
-   PAUSA SENASTE NYTT NÄR MAN HÅLLER MUSEN ÖVER
-========================================================== */
-
 if (breakingTrack) {
-
-  breakingTrack.addEventListener(
-    "mouseenter",
-    () => {
-      breakingTrack.style.animationPlayState = "paused";
-    }
-  );
-
-  breakingTrack.addEventListener(
-    "mouseleave",
-    () => {
-      breakingTrack.style.animationPlayState = "running";
-    }
-  );
-
+  breakingTrack.addEventListener("mouseenter",()=>breakingTrack.style.animationPlayState="paused");
+  breakingTrack.addEventListener("mouseleave",()=>breakingTrack.style.animationPlayState="running");
 }
+async function loadHomeCMSArticles(){
+  if (!document.querySelector(".homepage")) {duplicateTicker();return;}
+  try {
+    const response=await fetch("/.netlify/functions/articles",{cache:"no-store"});
+    if (!response.ok) throw new Error("Kunde inte ladda nyheter");
+    const articles=(await response.json()).filter(a=>a.status==="published");
+    const lead=articles.find(a=>a.isLead);
+    const hero=document.querySelector(".hero-news");
+    if (lead && hero) {
+      const href=cmsHref(lead),img=lead.image?`<img src="${cmsEscape(lead.image)}" alt="${cmsEscape(lead.title)}">`:"";
+      hero.innerHTML=`<a href="${href}"><div class="hero-image-wrap">${img}<span class="hero-badge">HUVUDNYHET</span></div></a><div class="hero-content"><div class="story-category">${cmsEscape(lead.category)}</div><h1><a href="${href}">${cmsEscape(lead.title)}</a></h1><p class="hero-intro">${cmsEscape(lead.intro)}</p><div class="story-meta">${cmsEscape(lead.date)} • Av ${cmsEscape(lead.author)}</div></div>`;
+    }
+    const feed=document.querySelector("#cmsHomeFeed");
+    if(feed && articles.length){
+      feed.hidden=false;
+      feed.innerHTML=articles.slice(0,8).map(a=>{const href=cmsHref(a);return `<article class="feed-story cms-feed-story">${a.image?`<a href="${href}"><img src="${cmsEscape(a.image)}" alt="${cmsEscape(a.title)}"></a>`:""}<div class="feed-story-content"><div class="story-category">${cmsEscape(a.category)}</div><h2><a href="${href}">${cmsEscape(a.title)}</a></h2><p>${cmsEscape(a.intro)}</p><a class="story-link" href="${href}">Läs mer →</a></div></article>`}).join("");
+    }
+    if(breakingTrack){
+      const latest=articles.filter(a=>a.showLatest).slice(0,8);
+      if(latest.length){
+        const entries=latest.map(a=>{
+          const clock=(a.updatedAt||a.createdAt||"");
+          const time=clock?new Date(clock).toLocaleTimeString("sv-SE",{hour:"2-digit",minute:"2-digit"}):"NYTT";
+          return `<a href="${cmsHref(a)}"><time>${time}</time> ${cmsEscape(a.title)}</a>`;
+        }).join('<span class="breaking-dot">•</span>');
+        breakingTrack.innerHTML=entries+'<span class="breaking-dot">•</span>'+breakingTrack.innerHTML;
+      }
+    }
+  }catch(e){console.warn("Startsidan visar äldre nyheter:",e.message)}
+  duplicateTicker();
+}
+loadHomeCMSArticles();
 
 /* ==========================================================
    SPELARKOMMENTARER
