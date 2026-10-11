@@ -1,376 +1,64 @@
 import { getStore } from "@netlify/blobs";
-
-const articlesStore = () =>
-  getStore({
-    name: "tackelberga-articles",
-    consistency: "strong"
-  });
-
-function json(data, status = 200) {
-  return Response.json(data, { status });
-}
-
-function clean(value, max = 10000) {
-  return String(value ?? "")
-    .trim()
-    .slice(0, max);
-}
-
-function validSlug(slug) {
-  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
-}
-
-function isAuthorized(request) {
-  const suppliedKey =
-    request.headers.get("x-admin-key");
-
-  const actualKey =
-    process.env.ADMIN_SECRET;
-
-  return Boolean(
-    actualKey &&
-    suppliedKey &&
-    suppliedKey === actualKey
-  );
-}
-
-export default async function handler(request) {
-  const store = articlesStore();
-  const url = new URL(request.url);
-
-  /* ==========================================
-     GET
-  ========================================== */
-
-  if (request.method === "GET") {
-    const slug =
-      clean(url.searchParams.get("slug"), 150);
-
-    // Hämta en specifik artikel
-    if (slug) {
-      if (!validSlug(slug)) {
-        return json(
-          { error: "Ogiltig slug." },
-          400
-        );
+const store = () => getStore({name:"tackelberga-articles",consistency:"strong"});
+const respond = (body,status=200) => Response.json(body,{status,headers:{"Cache-Control":"no-store"}});
+const clean = (v,max=30000) => String(v??"").trim().slice(0,max);
+const validSlug = slug => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
+const authorized = req => Boolean(process.env.ADMIN_SECRET && req.headers.get("x-admin-key") === process.env.ADMIN_SECRET);
+const read = (s,key) => s.get(key,{type:"json",consistency:"strong"});
+export default async function handler(req) {
+  const url=new URL(req.url), s=store();
+  try {
+    if(req.method==="GET") {
+      if(url.searchParams.get("adminCheck")==="1") return authorized(req)?respond({ok:true}):respond({error:"Fel redaktionslösenord."},401);
+      const slug=clean(url.searchParams.get("slug"),150);
+      if(slug) {
+        if(!validSlug(slug)) return respond({error:"Ogiltig artikeladress."},400);
+        const a=await read(s,`articles/${slug}`);
+        return a && (a.status==="published" || authorized(req))?respond(a):respond({error:"Artikeln finns inte."},404);
       }
-
-      const article =
-        await store.get(
-          `articles/${slug}`,
-          {
-            type: "json",
-            consistency: "strong"
-          }
-        );
-
-      if (!article) {
-        return json(
-          { error: "Artikeln finns inte." },
-          404
-        );
-      }
-
-      // Utkast får bara läsas från admin
-      if (
-        article.status !== "published" &&
-        !isAuthorized(request)
-      ) {
-        return json(
-          { error: "Artikeln finns inte." },
-          404
-        );
-      }
-
-      return json(article);
-    }
-
-    // Lista artiklar
-    const result =
-      await store.list({
-        prefix: "articles/"
-      });
-
-    const articles = [];
-
-    for (const blob of result.blobs) {
-      const article =
-        await store.get(
-          blob.key,
-          {
-            type: "json",
-            consistency: "strong"
-          }
-        );
-
-      if (!article) {
-        continue;
-      }
-
-      // Publikt: endast publicerade
-      // Admin: publicerade + utkast
-      if (
-        article.status === "published" ||
-        isAuthorized(request)
-      ) {
-        articles.push(article);
-      }
-    }
-
-    articles.sort((a, b) => {
-      const dateA =
-        new Date(a.updatedAt || a.createdAt || a.date);
-
-      const dateB =
-        new Date(b.updatedAt || b.createdAt || b.date);
-
-      return dateB - dateA;
-    });
-
-    return json(articles);
-  }
-
-  /* ==========================================
-     POST
-     SKAPA / UPPDATERA
-  ========================================== */
-
-  if (request.method === "POST") {
-    if (!isAuthorized(request)) {
-      return json(
-        { error: "Fel redaktionslösenord." },
-        401
-      );
-    }
-
-    let body;
-
-    try {
-      body = await request.json();
-    } catch {
-      return json(
-        { error: "Kunde inte läsa artikeln." },
-        400
-      );
-    }
-
-    const title =
-      clean(body.title, 180);
-
-    const slug =
-      clean(body.slug, 150).toLowerCase();
-
-    const originalSlug =
-      clean(body.originalSlug, 150).toLowerCase();
-
-    const category =
-      clean(body.category, 50);
-
-    const author =
-      clean(body.author, 80);
-
-    const date =
-      clean(body.date, 20);
-
-    const intro =
-      clean(body.intro, 1000);
-
-    const content =
-      clean(body.content, 30000);
-
-    const quote =
-      clean(body.quote, 500);
-
-    const quotePerson =
-      clean(body.quotePerson, 100);
-
-    const image =
-      clean(body.image, 1000);
-
-    const imageCaption =
-      clean(body.imageCaption, 500);
-
-    const status =
-      body.status === "draft"
-        ? "draft"
-        : "published";
-
-    if (
-      !title ||
-      !slug ||
-      !category ||
-      !author ||
-      !date ||
-      !intro ||
-      !content
-    ) {
-      return json(
-        {
-          error:
-            "Titel, slug, kategori, datum, författare, ingress och artikeltext krävs."
-        },
-        400
-      );
-    }
-
-    if (!validSlug(slug)) {
-      return json(
-        {
-          error:
-            "Slug får bara innehålla små bokstäver, siffror och bindestreck."
-        },
-        400
-      );
-    }
-
-    const existing =
-      await store.get(
-        `articles/${originalSlug || slug}`,
-        {
-          type: "json",
-          consistency: "strong"
+      let cursor; const articles=[];
+      do {
+        const page=await s.list({prefix:"articles/",...(cursor?{cursor}:{})});
+        for(const entry of page.blobs) {
+          const a=await read(s,entry.key);
+          if(a && (a.status==="published" || authorized(req))) articles.push(a);
         }
-      );
-
-    /*
-      Om slug ändras kontrollerar vi att den
-      nya inte redan används.
-    */
-    if (
-      originalSlug &&
-      originalSlug !== slug
-    ) {
-      const slugCollision =
-        await store.get(
-          `articles/${slug}`,
-          {
-            type: "json",
-            consistency: "strong"
-          }
-        );
-
-      if (slugCollision) {
-        return json(
-          {
-            error:
-              "Det finns redan en artikel med den sluggen."
-          },
-          409
-        );
-      }
+        cursor=page.next_cursor;
+      } while(cursor);
+      articles.sort((a,b)=>new Date(b.updatedAt||b.createdAt||b.date)-new Date(a.updatedAt||a.createdAt||a.date));
+      return respond(articles);
     }
-
-    const now =
-      new Date().toISOString();
-
-    const article = {
-      title,
-      slug,
-      category,
-      author,
-      date,
-      intro,
-      content,
-      quote,
-      quotePerson,
-      image,
-      imageCaption,
-
-      showLatest:
-        Boolean(body.showLatest),
-
-      isLead:
-        Boolean(body.isLead),
-
-      status,
-
-      createdAt:
-        existing?.createdAt || now,
-
-      updatedAt:
-        now
+    if(req.method!=="POST" && req.method!=="DELETE") return new Response("Method not allowed",{status:405});
+    if(!authorized(req)) return respond({error:"Fel redaktionslösenord."},401);
+    if(req.method==="DELETE") {
+      const slug=clean(url.searchParams.get("slug"),150);
+      if(!validSlug(slug))return respond({error:"Ogiltig slug."},400);
+      if(!await read(s,`articles/${slug}`))return respond({error:"Artikeln finns inte."},404);
+      await s.delete(`articles/${slug}`);
+      return respond({success:true,slug});
+    }
+    let body; try {body=await req.json()}catch{return respond({error:"Ogiltig JSON."},400)}
+    const a={
+      title:clean(body.title,180),slug:clean(body.slug,150).toLowerCase(),
+      category:clean(body.category,50),author:clean(body.author,80),date:clean(body.date,20),
+      intro:clean(body.intro,1000),content:clean(body.content,30000),quote:clean(body.quote,500),
+      quotePerson:clean(body.quotePerson,100),image:clean(body.image,1000),imageCaption:clean(body.imageCaption,500),
+      showLatest:Boolean(body.showLatest),isLead:Boolean(body.isLead),
+      status:body.status==="draft"?"draft":"published",
+      questions:Array.isArray(body.questions)?body.questions.slice(0,40).map(q=>({question:clean(q.question,500),answer:clean(q.answer,6000)})):[],
+      columnConclusion:clean(body.columnConclusion,2500),profilePlayer:clean(body.profilePlayer,100),analysisSummary:clean(body.analysisSummary,2500)
     };
-
-    await store.setJSON(
-      `articles/${slug}`,
-      article
-    );
-
-    /*
-      Om redaktören ändrade slug måste
-      gamla posten tas bort.
-    */
-    if (
-      originalSlug &&
-      originalSlug !== slug &&
-      existing
-    ) {
-      await store.delete(
-        `articles/${originalSlug}`
-      );
-    }
-
-    return json(
-      article,
-      existing ? 200 : 201
-    );
-  }
-
-  /* ==========================================
-     DELETE
-  ========================================== */
-
-  if (request.method === "DELETE") {
-    if (!isAuthorized(request)) {
-      return json(
-        { error: "Fel redaktionslösenord." },
-        401
-      );
-    }
-
-    const slug =
-      clean(
-        url.searchParams.get("slug"),
-        150
-      ).toLowerCase();
-
-    if (!slug || !validSlug(slug)) {
-      return json(
-        { error: "Ogiltig artikel." },
-        400
-      );
-    }
-
-    const existing =
-      await store.get(
-        `articles/${slug}`,
-        {
-          type: "json",
-          consistency: "strong"
-        }
-      );
-
-    if (!existing) {
-      return json(
-        { error: "Artikeln finns inte." },
-        404
-      );
-    }
-
-    await store.delete(
-      `articles/${slug}`
-    );
-
-    return json({
-      success: true,
-      slug
-    });
-  }
-
-  return new Response(
-    "Method not allowed",
-    {
-      status: 405
-    }
-  );
+    const original=clean(body.originalSlug,150).toLowerCase();
+    if(!validSlug(a.slug)|| (original && !validSlug(original)))return respond({error:"Ogiltig slug."},400);
+    if(!a.title||!a.category||!a.date||!a.author||!a.intro || (!a.content && a.category!=="Intervju"))return respond({error:"Rubrik, kategori, datum, författare, ingress och artikeltext krävs (artikeltext är valfri vid intervju)."},400);
+    if(a.questions.some(q=>!q.question || !q.answer))return respond({error:"Varje intervjufråga måste ha fråga och svar."},400);
+    if(a.category==="Intervju"&&!a.questions.length && !a.content)return respond({error:"Intervjun behöver minst en fråga och ett svar."},400);
+    const previous=original?await read(s,`articles/${original}`):await read(s,`articles/${a.slug}`);
+    if(original && !previous)return respond({error:"Originalartikeln finns inte längre. Ladda om listan."},409);
+    if((!original || original!==a.slug) && await read(s,`articles/${a.slug}`))return respond({error:"En artikel med den adressen finns redan."},409);
+    const now=new Date().toISOString(); a.createdAt=previous?.createdAt||now; a.updatedAt=now;
+    await s.setJSON(`articles/${a.slug}`,a);
+    if(original && original!==a.slug)await s.delete(`articles/${original}`);
+    return respond(a,previous?200:201);
+  } catch(error) {console.error(error);return respond({error:"Serverfel vid hantering av artikel."},500)}
 }
