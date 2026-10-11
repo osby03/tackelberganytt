@@ -3862,3 +3862,10 @@ a {
 .player-detail-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.player-detail-stats>div{padding:18px 10px;background:var(--paper);border:1px solid var(--line)}
 .player-detail-stats strong{display:block;font:900 2rem var(--serif)}.player-detail-stats span{font-size:.71rem;font-weight:800;text-transform:uppercase}
 @media(max-width:780px){.player-detail-hero,.player-detail-lower{grid-template-columns:1fr}.player-detail-hero{gap:18px}.player-detail-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* Spelarkort: länkar till individuella spelarprofiler */
+.player-profile-image-link {display:block;}
+.player-profile-name-link {text-decoration:none;transition:color .2s ease;}
+.player-profile-name-link:hover,.player-profile-name-link:focus-visible {color:var(--accent-dark);}
+.player-profile-cta {display:inline-flex;align-items:center;gap:7px;margin:0 18px 18px;padding:9px 12px;border:1px solid var(--line);font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.025em;transition:background-color .2s ease,color .2s ease,border-color .2s ease;}
+.player-profile-cta:hover,.player-profile-cta:focus-visible {background:#111;color:#fff;border-color:#111;}
