@@ -564,6 +564,30 @@ Använd en tom rad mellan stycken."
             </div>
 
 
+
+            <!-- Valfri faktaruta för artikelns sidospalt -->
+            <div class="cms-field cms-field-full">
+              <div class="cms-subheading">Faktaruta (valfri)</div>
+              <p class="cms-help">Visas till höger om artikeln på dator och under artikeln på mobil. Lämna tomt om du inte vill visa någon faktaruta.</p>
+            </div>
+            <div class="cms-field cms-field-full">
+              <label for="factTitle">Rubrik på faktarutan</label>
+              <input id="factTitle" maxlength="140" placeholder="Om Ibrahima Fofana">
+            </div>
+            <div class="cms-field cms-field-full">
+              <label for="factText">Fakta (en rad per uppgift)</label>
+              <textarea id="factText" maxlength="2500" rows="6" placeholder="Position: Högerback&#10;Roll: Assisterande kapten&#10;Blockerade skott: 104"></textarea>
+              <small>Du kan skriva exempelvis "Position: Högerback". Texten formateras automatiskt.</small>
+            </div>
+            <div class="cms-field cms-field-full">
+              <label for="factImageFile">Bild i faktarutan (valfri)</label>
+              <input type="file" id="factImageFile" accept="image/jpeg,image/png,image/webp">
+              <div id="currentFactImageBox" class="cms-fact-current" hidden>
+                <img id="currentFactImage" alt="Befintlig bild i faktarutan">
+                <span>Befintlig bild – välj ny fil för att byta.</span>
+              </div>
+            </div>
+
             <!-- INSTÄLLNINGAR -->
 
             <div class="cms-field cms-field-full">
@@ -845,6 +869,7 @@ let allArticles = [];
 let currentFilter = "all";
 
 let currentImageUrl = "";
+let currentFactImageUrl = "";
 
 let slugWasManuallyEdited = false;
 
@@ -1479,6 +1504,8 @@ function newArticle() {
   originalSlugInput.value = "";
 
   currentImageUrl = "";
+  currentFactImageUrl = "";
+  document.querySelector("#currentFactImageBox").hidden = true;
 
   slugWasManuallyEdited = false;
 
@@ -1609,6 +1636,13 @@ function editArticle(slug) {
     "#isLead"
   ).checked =
     Boolean(article.isLead);
+
+  document.querySelector("#factTitle").value = article.factTitle || "";
+  document.querySelector("#factText").value = article.factText || "";
+  currentFactImageUrl = article.factImage || "";
+  document.querySelector("#currentFactImageBox").hidden = !currentFactImageUrl;
+  if (currentFactImageUrl) document.querySelector("#currentFactImage").src = currentFactImageUrl;
+  document.querySelector("#factImageFile").value = "";
 
   currentImageUrl =
     article.image || "";
@@ -1863,6 +1897,18 @@ async function uploadImage() {
 }
 
 
+async function uploadFactImage() {
+  const file = document.querySelector("#factImageFile").files[0];
+  if (!file) return currentFactImageUrl;
+  if (file.size > 5 * 1024 * 1024) throw new Error("Faktarutans bild får vara max 5 MB.");
+  const form = new FormData(); form.append("file", file);
+  const response = await fetch("/.netlify/functions/upload-image", { method:"POST", headers:{"x-admin-key":getAdminKey()}, body:form });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error || "Faktarutans bild kunde inte laddas upp.");
+  currentFactImageUrl = result.url;
+  return currentFactImageUrl;
+}
+
 /* =========================================================
    SAVE
 ========================================================= */
@@ -1885,6 +1931,7 @@ articleForm.addEventListener(
       if (categoryInput.value === "Intervju" && !questions.length && !contentInput.value.trim()) throw new Error("Lägg till minst en intervjufråga eller skriv artikeltext.");
       const image =
         await uploadImage();
+      const factImage = await uploadFactImage();
 
       const article = {
         originalSlug:
@@ -1936,6 +1983,10 @@ articleForm.addEventListener(
           ).value,
 
         image,
+
+        factTitle: document.querySelector("#factTitle").value,
+        factText: document.querySelector("#factText").value,
+        factImage,
 
         imageCaption:
           document.querySelector(
