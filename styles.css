@@ -3793,44 +3793,7 @@ a {
 .cms-profile-line{background:#111;color:#fff;padding:12px 16px;margin:10px 0 22px;font-size:.75rem;letter-spacing:.05em}
 .cms-type-analysis .cms-conclusion{background:#f2f7f5;border-top:4px solid #16877e;padding:20px}
 @media(max-width:650px){.cms-reading{padding:20px}.cms-stats-table{font-size:.75rem}}
-/* Kompletteringar för kategorier och statistik. Behåll befintliga styles.css. */
-[hidden]{display:none!important}
-.cms-category-note{background:#e8f7f5;padding:13px;border-left:4px solid #16877e;font-size:.9rem}
-.cms-question-item{border:1px solid #d7d3cb;background:#faf9f6;padding:16px;margin:12px 0;display:grid;gap:9px}
-.cms-question-item input,.cms-question-item textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cfcac3;background:white;font:inherit}
-.cms-question-item .iq-remove{justify-self:start}
-.cms-table-scroll{max-width:100%;overflow-x:auto}
-.cms-stats-table{border-collapse:collapse;width:100%;min-width:900px;font-size:.83rem}
-.cms-stats-table th{background:#151515;color:white;padding:12px 8px;text-align:left}
-.cms-stats-table td{padding:8px;border-bottom:1px solid #ddd}
-.cms-stats-table input{width:65px;max-width:none;box-sizing:border-box;padding:8px;font:inherit;border:1px solid #bbb}
-.cms-stats-table td:first-child{min-width:155px}
-.cms-stats-table .calculated-points{font-weight:800;background:#e8f7f5}
-.cms-public-statistics{grid-column:1/-1;padding-bottom:45px}
-.cms-public-statistics h2{font-family:var(--serif,Georgia);font-size:2rem;margin:28px 0 14px}
-.cms-team-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
-.cms-stat-card{padding:17px;background:#fff;border:1px solid #d9d5cd;border-top:3px solid #198e84;display:grid;gap:10px}
-.cms-stat-card span{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;font-weight:700;color:#555}
-.cms-stat-card strong{font-family:var(--serif,Georgia);font-size:2rem}
-.cms-stats-updated{font-size:.78rem;color:#666;margin-top:14px}
-.cms-reading-page{padding-top:26px;padding-bottom:70px}
-.cms-reading{max-width:850px;margin:25px auto;background:#fff;padding:clamp(20px,5vw,55px);border:1px solid #e2ded7}
-.cms-reading-kicker{font-size:.75rem;text-transform:uppercase;letter-spacing:.13em;font-weight:800;color:#16877e;margin-bottom:12px}
-.cms-reading h1{font-family:var(--serif,Georgia);font-size:clamp(2.3rem,5vw,4.8rem);line-height:1.08;margin:0 0 20px}
-.cms-reading-intro{font-family:var(--serif,Georgia);font-size:clamp(1.2rem,2.1vw,1.6rem);line-height:1.45;color:#393632}
-.cms-reading-byline{font-size:.82rem;color:#666;border-bottom:1px solid #ddd;padding-bottom:16px;margin-bottom:24px}
-.cms-reading figure{margin:0 0 26px}.cms-reading-hero{width:100%;max-height:540px;object-fit:cover}.cms-reading figcaption{font-size:.78rem;color:#777;margin-top:8px}
-.cms-reading-content{font-family:Georgia,serif;font-size:1.13rem;line-height:1.78}.cms-reading-content p{margin:0 0 1.25em}
-.cms-reading-content .cms-qa-pair{margin:25px 0}.cms-reading-content .cms-qa-pair h2{font-family:var(--sans,Arial);font-size:1rem;color:#0f6862;margin-bottom:8px}
-.cms-pull-quote{border-left:5px solid #16877e;padding:16px 20px;margin:34px 0;font:700 1.65rem/1.4 var(--serif,Georgia);background:#eaf8f5}
-.cms-pull-quote cite{display:block;font:500 .8rem var(--sans,Arial);margin-top:12px;text-transform:uppercase}
-.cms-conclusion{border-top:2px solid #222;padding-top:12px;margin-top:32px}.cms-conclusion h2{font-family:var(--serif,Georgia)}
-.cms-type-column{max-width:740px}.cms-type-column .cms-reading-hero{max-height:400px}.cms-type-column h1{font-style:italic}
-.cms-type-brief{max-width:700px}.cms-type-brief h1{font-size:clamp(2rem,4vw,3.6rem)}
-.cms-type-interview .cms-qa-pair{border-bottom:1px solid #ddd;padding-bottom:18px}
-.cms-profile-line{background:#111;color:#fff;padding:12px 16px;margin:10px 0 22px;font-size:.75rem;letter-spacing:.05em}
-.cms-type-analysis .cms-conclusion{background:#f2f7f5;border-top:4px solid #16877e;padding:20px}
-@media(max-width:650px){.cms-reading{padding:20px}.cms-stats-table{font-size:.75rem}}
+
 
 /* Samma tidningskänsla som äldre, hårdkodade artiklar */
 .cms-article-outer {padding-top:26px;padding-bottom:70px}
@@ -3859,3 +3822,4 @@ a {
 .cms-home-feed .cms-feed-story img{object-fit:cover}
 .hero-news .hero-image-wrap:empty {display:none}
 @media(max-width:900px){.cms-article-grid.cms-with-aside {grid-template-columns:1fr}}
+
