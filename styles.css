@@ -3845,8 +3845,9 @@ a {
 #articleCommentForm input,#articleCommentForm textarea{font:inherit;max-width:100%;width:100%;background:#fff;border:1px solid var(--line);padding:12px}
 #articleCommentForm textarea{min-height:105px;resize:vertical}#articleCommentForm button{background:#111;color:#fff;justify-self:start}
 .comment-honey{position:absolute;left:-9999px;height:1px;overflow:hidden}#engagementStatus{color:var(--accent-dark);font-size:.85rem}
-/* På mobil ersätts automatiskt rullande nyheter med manuell sidscroll */
-@media(max-width:700px){.breaking-window{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;touch-action:pan-x}.breaking-track{animation:none!important;transform:none!important;width:max-content;min-width:0;padding-right:20px}.breaking-label{position:sticky;left:0}}
+/* Mobilen använder samma JavaScript-styrda rullning som datorn.
+   Den äldre regeln transform:none!important har tagits bort eftersom
+   den blockerade rullningen på mobiler. */
 @media(hover:none){.reaction-button:hover,.engagement-share button:hover,.engagement-share a:hover,.engagement-comments button:hover{transform:none}}
 
 /* Individuella spelarporträtt */
