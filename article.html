@@ -1,25 +1,55 @@
-<!doctype html>
-<html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Artikel | Tackelberganytt</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="cms-extra.css"></head><body>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Artikel | Tackelberganytt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="cms-extra.css">
+</head>
+<body>
 <header class="site-header"><div class="utility-bar"><div class="container utility-inner"><span>LOKAL • IDROTT • GEMENSKAP • TACKELBERGA</span><span class="utility-right">TACKELBERGAS EGEN SPORTTIDNING</span></div></div><div class="container masthead"><a href="index.html" class="brand"><span class="brand-main">Tackelberga</span><span class="brand-accent">nytt</span></a><img src="images/logo.png" alt="Tackelberga Oliners" class="brand-logo"></div><nav class="main-nav"><div class="container nav-inner"><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu">☰ Meny</button><ul id="primary-menu"><li><a href="index.html">Hem</a></li><li><a href="statistik.html">Statistik</a></li><li><a href="laget.html">Laget</a></li><li><a href="artiklar.html">Artiklar</a></li><li><a href="om.html">Om Tackelberganytt</a></li></ul></div></nav></header>
-<main class="container cms-reading-page"><p><a href="artiklar.html">← Till alla artiklar</a></p><article id="articleRoot" class="cms-reading"><p>Laddar artikeln...</p></article></main>
+<main class="container page-grid cms-article-outer"><div class="cms-return"><a href="artiklar.html">← Till alla artiklar</a></div><article id="articleRoot" class="article-page cms-article-grid"><p>Laddar artikeln...</p></article></main>
 <footer class="site-footer"><div class="container footer-grid"><div><div class="footer-brand">Tackelberga<span>nytt</span></div><p>Nyheter, intervjuer, statistik och krönikor om Tackelberga Oliners.</p></div><div><h4>Snabblänkar</h4><a href="statistik.html">Statistik</a><a href="laget.html">Laget</a><a href="artiklar.html">Artiklar</a></div><div><h4>Redaktionen</h4><p>Stockholm</p><p>© 2026 Tackelberganytt</p></div></div></footer><script src="script.js"></script>
 <script>
 const root=document.querySelector('#articleRoot');
 const esc=t=>{const d=document.createElement('div');d.textContent=String(t??'');return d.innerHTML};
-const paragraphs=t=>String(t||'').split(/\n\s*\n/).filter(x=>x.trim()).map(x=>'<p>'+esc(x).replace(/\n/g,'<br>')+'</p>').join('');
+// Endast begränsad Markdown: tillåt aldrig rå HTML från redaktören.
+function inline(text){return esc(text).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>');}
+function paragraphs(text){
+  const blocks=String(text||'').split(/\n\s*\n/).map(b=>b.trim()).filter(Boolean);
+  return blocks.map(block=>{
+    const lines=block.split('\n');
+    if(lines.length===1){
+      const line=lines[0].trim();
+      if(/^#{2,3}\s+/.test(line)){const level=line.startsWith('###')?'h3':'h2';return `<${level}>${inline(line.replace(/^#{2,3}\s+/,''))}</${level}>`;}
+      // Tidigare artiklar har ibland **Mellanrubrik** utan markdown-##.
+      if(/^\*\*[^*]+\*\*$/.test(line))return `<h2>${inline(line.slice(2,-2))}</h2>`;
+    }
+    return '<p>'+lines.map(inline).join('<br>')+'</p>';
+  }).join('');
+}
 const slug=new URLSearchParams(location.search).get('slug');
 async function load(){
  if(!slug){root.textContent='Ingen artikel vald.';return;}
- try{const response=await fetch('/.netlify/functions/articles?slug='+encodeURIComponent(slug),{cache:'no-store'});if(!response.ok)throw new Error('Artikeln finns inte eller är inte publicerad.');const a=await response.json();
- document.title=a.title+' | Tackelberganytt';
- const image=a.image?'<figure><img class="cms-reading-hero" src="'+esc(a.image)+'" alt=""><figcaption>'+esc(a.imageCaption||'')+'</figcaption></figure>':'';
- const quote=a.quote?'<blockquote class="cms-pull-quote">“'+esc(a.quote)+'”<cite>'+esc(a.quotePerson||'')+'</cite></blockquote>':'';
- const interview=a.category==='Intervju' && Array.isArray(a.questions)?'<section class="cms-qa">'+a.questions.map(qa=>'<div class="cms-qa-pair"><h2>'+esc(qa.question)+'</h2>'+paragraphs(qa.answer)+'</div>').join('')+'</section>':'';
- const conclusion=a.category==='Krönika'&&a.columnConclusion?'<div class="cms-conclusion"><h2>Avslutande tanke</h2>'+paragraphs(a.columnConclusion)+'</div>':'';
- const analysis=a.category==='Analys'&&a.analysisSummary?'<div class="cms-conclusion"><h2>Slutsats</h2>'+paragraphs(a.analysisSummary)+'</div>':'';
- const player=a.category==='Profil'&&a.profilePlayer?'<div class="cms-profile-line">SPELARE I FOKUS: '+esc(a.profilePlayer)+'</div>':'';
- root.className='cms-reading cms-type-'+({"Nyhet":"news","Intervju":"interview","Krönika":"column","Profil":"profile","Analys":"analysis","Senaste nytt":"brief"}[a.category]||'news');
- root.innerHTML='<div class="cms-reading-kicker">'+esc(a.category)+'</div><h1>'+esc(a.title)+'</h1><p class="cms-reading-intro">'+esc(a.intro)+'</p><div class="cms-reading-byline">Av '+esc(a.author)+' · '+esc(a.date)+'</div>'+player+image+'<div class="cms-reading-content">'+paragraphs(a.content)+interview+quote+conclusion+analysis+'</div>';
+ try {
+   const response=await fetch('/.netlify/functions/articles?slug='+encodeURIComponent(slug),{cache:'no-store'});
+   if(!response.ok)throw new Error('Artikeln finns inte eller är inte publicerad.');
+   const a=await response.json();document.title=a.title+' | Tackelberganytt';
+   const image=a.image?`<img class="article-hero" src="${esc(a.image)}" alt="${esc(a.title)}"><div class="image-caption">${esc(a.imageCaption||'')}</div>`:'';
+   const quote=a.quote?`<blockquote>”${inline(a.quote)}”${a.quotePerson?`<cite>${esc(a.quotePerson)}</cite>`:''}</blockquote>`:'';
+   const interview=a.category==='Intervju' && Array.isArray(a.questions)?a.questions.map(qa=>`<div class="cms-qa-pair"><h2>${inline(qa.question)}</h2>${paragraphs(qa.answer)}</div>`).join(''):'';
+   const conclusion=a.category==='Krönika'&&a.columnConclusion?`<section class="cms-conclusion"><h2>Avslutande tanke</h2>${paragraphs(a.columnConclusion)}</section>`:'';
+   const analysis=a.category==='Analys'&&a.analysisSummary?`<section class="cms-conclusion"><h2>Slutsats</h2>${paragraphs(a.analysisSummary)}</section>`:'';
+   const player=a.category==='Profil'&&a.profilePlayer?`<p class="cms-profile-line">SPELARE I FOKUS: ${esc(a.profilePlayer)}</p>`:'';
+   const factLines=String(a.factText||'').split('\n').filter(x=>x.trim()).map(x=>{
+     const ix=x.indexOf(':');return ix>0?`<p><strong>${esc(x.slice(0,ix).trim())}:</strong> ${esc(x.slice(ix+1).trim())}</p>`:`<p>${esc(x)}</p>`;
+   }).join('');
+   const hasFacts=Boolean(a.factTitle||a.factText||a.factImage);
+   const aside=hasFacts?`<aside class="article-aside"><div class="fact-box">${a.factImage?`<img class="cms-fact-image" src="${esc(a.factImage)}" alt="">`:''}${a.factTitle?`<h3>${esc(a.factTitle)}</h3>`:''}${factLines}</div></aside>`:'';
+   root.className='article-page cms-article-grid'+(hasFacts?' cms-with-aside':' cms-no-aside');
+   root.innerHTML=`<div class="article-body"><div class="kicker">${esc(a.category)}</div><h1>${esc(a.title)}</h1><p class="standfirst">${esc(a.intro)}</p><p class="byline">Av ${esc(a.author)} • ${esc(a.date)}</p>${player}${image}<div class="article-text">${paragraphs(a.content)}${interview}${quote}${conclusion}${analysis}</div></div>${aside}`;
  }catch(e){root.textContent=e.message;}
 }load();
-</script></body></html>
+</script>
+</body></html>
