@@ -3823,3 +3823,42 @@ a {
 .hero-news .hero-image-wrap:empty {display:none}
 @media(max-width:900px){.cms-article-grid.cms-with-aside {grid-template-columns:1fr}}
 
+
+
+/* NYTT: Artikelfunktioner – följer tidningens beige/svarta/turkosa design */
+.article-engagement{border-top:4px solid #111;margin-top:52px;padding-top:22px;font-family:var(--sans)}
+.article-engagement h2{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2rem);margin:5px 0 16px}
+.engagement-reactions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 22px}
+.reaction-button,.engagement-share button,.engagement-share a,.engagement-comments button{background:var(--paper);border:1px solid var(--line);padding:10px 14px;font-family:var(--sans);font-weight:800;cursor:pointer;color:var(--ink);transition:border-color .15s,background .15s,color .15s,transform .15s}
+.reaction-button{font-size:1.05rem;border-radius:5px}
+.reaction-button:hover,.engagement-share button:hover,.engagement-share a:hover,.engagement-comments button:hover{border-color:var(--accent-dark);background:#e3f7f4;transform:translateY(-1px)}
+.reaction-button[aria-pressed="true"]{background:#dff3f1;border-color:var(--accent-dark)}
+.engagement-share{display:flex;flex-wrap:wrap;align-items:center;gap:9px;border-block:1px solid var(--line);padding:17px 0}
+.engagement-share span{font-size:.8rem;font-weight:900;margin-right:6px}
+.engagement-share button,.engagement-share a{font-size:.8rem;display:inline-block}
+.engagement-comments{margin-top:28px}.engagement-comments h2 span{font-family:var(--sans);font-size:.85rem;color:var(--muted)}
+.engagement-comment{border-bottom:1px solid var(--line);padding:14px 0}
+.engagement-comment>div{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.86rem}
+.engagement-comment time,.engagement-muted{font-size:.8rem;color:var(--muted)}
+.engagement-comment p{white-space:pre-wrap;overflow-wrap:anywhere;font-family:Georgia,serif;line-height:1.6;margin:8px 0}
+#articleCommentForm{display:grid;gap:9px;margin-top:20px}#articleCommentForm label{font-weight:800;font-size:.8rem}
+#articleCommentForm input,#articleCommentForm textarea{font:inherit;max-width:100%;width:100%;background:#fff;border:1px solid var(--line);padding:12px}
+#articleCommentForm textarea{min-height:105px;resize:vertical}#articleCommentForm button{background:#111;color:#fff;justify-self:start}
+.comment-honey{position:absolute;left:-9999px;height:1px;overflow:hidden}#engagementStatus{color:var(--accent-dark);font-size:.85rem}
+/* På mobil ersätts automatiskt rullande nyheter med manuell sidscroll */
+@media(max-width:700px){.breaking-window{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;touch-action:pan-x}.breaking-track{animation:none!important;transform:none!important;width:max-content;min-width:0;padding-right:20px}.breaking-label{position:sticky;left:0}}
+@media(hover:none){.reaction-button:hover,.engagement-share button:hover,.engagement-share a:hover,.engagement-comments button:hover{transform:none}}
+
+/* Individuella spelarporträtt */
+.player-detail{padding-top:30px;padding-bottom:70px}.player-detail-return{font-weight:800;color:var(--accent-dark)}
+.player-detail-hero{display:grid;grid-template-columns:minmax(280px,.82fr) 1fr;gap:35px;align-items:center;padding:24px 0 32px;border-bottom:5px solid #111}
+.player-detail-hero img{width:100%;max-height:520px;aspect-ratio:4/3;object-fit:cover}
+.player-detail-hero h1{font:900 clamp(3rem,7vw,6rem)/.98 var(--serif);margin:16px 0 12px}
+.player-detail-role{font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-dark)}
+.player-detail-intro{font:1.5rem/1.45 Georgia,serif;max-width:620px}
+.player-detail-lower{display:grid;grid-template-columns:1fr 1.2fr;gap:55px;padding-top:24px}
+.player-detail-lower h2{font:800 2rem var(--serif);border-bottom:2px solid #111;padding-bottom:12px}
+.player-detail-lower h3{font:800 1.45rem var(--serif)}.player-detail-lower p{line-height:1.7}
+.player-detail-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.player-detail-stats>div{padding:18px 10px;background:var(--paper);border:1px solid var(--line)}
+.player-detail-stats strong{display:block;font:900 2rem var(--serif)}.player-detail-stats span{font-size:.71rem;font-weight:800;text-transform:uppercase}
+@media(max-width:780px){.player-detail-hero,.player-detail-lower{grid-template-columns:1fr}.player-detail-hero{gap:18px}.player-detail-stats{grid-template-columns:repeat(2,1fr)}}
