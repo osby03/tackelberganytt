@@ -3869,3 +3869,22 @@ a {
 .player-profile-name-link:hover,.player-profile-name-link:focus-visible {color:var(--accent-dark);}
 .player-profile-cta {display:inline-flex;align-items:center;gap:7px;margin:0 18px 18px;padding:9px 12px;border:1px solid var(--line);font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.025em;transition:background-color .2s ease,color .2s ease,border-color .2s ease;}
 .player-profile-cta:hover,.player-profile-cta:focus-visible {background:#111;color:#fff;border-color:#111;}
+
+/* Reagera-knapp, synliga reaktionsantal och mobildelning */
+.engagement-reaction-bar{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:14px 0 12px}
+.reaction-toggle{display:inline-flex;align-items:center;gap:9px;background:#111;color:#fff;border:1px solid #111;padding:11px 16px;font:800 .85rem var(--sans);cursor:pointer;transition:background-color .18s,border-color .18s}
+.reaction-toggle:hover,.reaction-toggle:focus-visible{background:var(--accent-dark);border-color:var(--accent-dark)}
+.reaction-toggle.has-reacted{border-bottom:3px solid var(--accent)}
+.engagement-reaction-summary{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.reaction-summary-chip{display:inline-flex;align-items:center;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:7px 10px;font:700 .86rem var(--sans)}
+.reaction-picker{background:var(--paper);border:1px solid var(--line);width:max-content;max-width:100%;padding:10px;margin:0 0 18px}
+.reaction-picker[hidden]{display:none!important}
+.reaction-picker .engagement-reactions{margin:0;gap:7px}
+.reaction-picker .reaction-button{font-size:1.45rem;min-width:48px;min-height:46px}
+/* Delningssymbolen syns bara på små skärmar. Inga Facebook-/X-knappar. */
+.engagement-share{display:none}
+@media(max-width:700px){
+  .engagement-share{display:flex;border-block:0;padding:6px 0 18px}
+  .engagement-share button{display:inline-flex;align-items:center;gap:9px;background:transparent;border:1px solid var(--line);font-size:.85rem}
+  .engagement-share button svg{flex-shrink:0}
+}
