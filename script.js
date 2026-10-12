@@ -60,8 +60,8 @@ if (breakingTrack && breakingWindow) {
   }
   breakingTrack.appendChild(originalGroup);
 
-  const before = originalGroup.cloneNode(true);
-  const after = originalGroup.cloneNode(true);
+  let before = originalGroup.cloneNode(true);
+  let after = originalGroup.cloneNode(true);
   before.setAttribute("aria-hidden", "true");
   after.setAttribute("aria-hidden", "true");
   before.querySelectorAll("a").forEach(a => a.tabIndex = -1);
@@ -172,6 +172,37 @@ if (breakingTrack && breakingWindow) {
     pageVisible = !document.hidden;
     lastFrame = null;
   });
+  // Uppdatera remsan när CMS-artiklar har hämtats. Behåll dragning och animation.
+  window.addEventListener("tackelberga:news-updated", event => {
+    const headlines = event.detail?.headlines;
+    if (!Array.isArray(headlines)) return;
+    before.remove();
+    after.remove();
+    originalGroup.replaceChildren();
+    for (const item of headlines) {
+      const a = document.createElement("a");
+      a.href = item.href;
+      const time = document.createElement("time");
+      time.textContent = item.time || "NYTT";
+      a.append(time, document.createTextNode(" " + item.title));
+      originalGroup.append(a);
+      const dot = document.createElement("span");
+      dot.className = "breaking-dot";
+      dot.textContent = "•";
+      originalGroup.append(dot);
+    }
+    before = originalGroup.cloneNode(true);
+    after = originalGroup.cloneNode(true);
+    before.setAttribute("aria-hidden", "true");
+    after.setAttribute("aria-hidden", "true");
+    for (const clone of [before, after]) clone.querySelectorAll("a").forEach(a => a.tabIndex = -1);
+    breakingTrack.prepend(before);
+    breakingTrack.append(after);
+    groupWidth = 0;
+    lastFrame = null;
+    measure();
+  });
+
   window.addEventListener("resize", measure);
   if (document.fonts?.ready) document.fonts.ready.then(measure);
   measure();
